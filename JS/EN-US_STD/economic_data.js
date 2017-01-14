@@ -1,9 +1,8 @@
 var aux = "";
 
-//currency
-currencysym = "$";
 //amount when passing through go
 game.goamount = 200;
+
 //taxes
 game.taxes.income[1] = 200;
 game.taxes.luxury = 75;
@@ -229,6 +228,8 @@ $.each(game.propsdet.streets, function(i, group) {
 
 //reloads the shown info
 //-------------------------------------------------------------
+//sets the game language as english
+$(".gamelang").attr("lang", "en");
 
 //reloads the utilities info
 $(".utilelectric" ).html(game.propsdet.utilities.electric	 );

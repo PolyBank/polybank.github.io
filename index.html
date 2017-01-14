@@ -18,12 +18,12 @@
 		<script src="lib/datatables-1.10.13/js/jquery.dataTables.min.js"></script>
 		<script src="lib/datatables-1.10.13/js/dataTables.bootstrap.min.js"></script>
 		<!-- DataTables ##################-->
-		<link rel="stylesheet" type="text/css" href="CSS/stylesheet.css">
+		<link rel="stylesheet" type="text/css" href="CSS/stylesheet.min.css">
 		
-		<script src="JS/functions.js"></script>
-		<script src="JS/drawbill.js"></script>
-		<script src="JS/ColorLuminance.js"></script>
-		<script src="JS/data_index_list.js"></script>
+		<script src="JS/functions.min.js"></script>
+		<script src="JS/drawbill.min.js"></script>
+		<script src="JS/ColorLuminance.min.js"></script>
+		<script src="JS/data_index_list.min.js"></script>
 		<script src="version.js"></script>
 
 	</head>
@@ -106,15 +106,23 @@
 					<!-- Modal footer-->
 					<div class="modal-footer">
 						<div class='input-group'>
-						<label for="versionsel" class='input-group-addon' onchange="currencysymbol = $('#versionsel').selectedIndex">Variantes:</label>
-							<select id="versionsel" class="form-control">
+						<label for="versionsel" class='input-group-addon'>Variantes:</label>
+							<select id="versionsel" class="form-control" onchange="currencysym = datasources[$('#versionsel').prop('selectedIndex')].currency; setcurrency();">
 								<script type="text/javascript">
 									$(document).ready(function(){
 										var len = datasources.length;
 										for(var i=0; i<len; i++){
-											$("#versionsel").append("<option id='version" + i + "' value=" + datasources[i].folder + ">" + datasources[i].version + "</option>");
+											$("#versionsel").append(
+												"<option id='version" + i + 
+													"' value=" + datasources[i].folder + 
+												">" +
+													"<span>" + datasources[i].folder.split("_")[0] + "</span>: " +
+													datasources[i].version +
+												"</option>"
+											);
 										}
-										currencysymbol = datasources[0].currency;
+										currencysym = datasources[0].currency;
+										setcurrency();
 									});
 								</script>
 							</select>
@@ -262,7 +270,7 @@
 					</div>
 					<!-- Modal body-->
 					<div id="carddialogbody" class="modal-body">
-						<h2 id="carddialogtxt"></h2>
+						<h2 id="carddialogtxt" class="gamelang"></h2>
 					</div>
 					 <!-- Modal footer-->
 					<div class="modal-footer">
@@ -386,7 +394,7 @@
 								<!-- Avaliable Properties -->
 								<div class='input-group'>
 									<label for="avalpropsel" class='input-group-addon'>Propiedades Disponibles:</label>
-									<select id="avalpropsel" class="propertysel form-control"></select>
+									<select id="avalpropsel" class="propertysel form-control gamelang"></select>
 								</div>
 								<button id="propsoldbtn" class="btn btn-primary btn-block" onclick="movetosold($('#avalpropsel').val());">
 									Marcar como: Vendida
@@ -394,7 +402,7 @@
 								<!-- Sold Properties -->
 								<div class='input-group'>
 									<label for="soldpropsel" class='input-group-addon'>Propiedades Vendidas:</label>
-									<select id="soldpropsel" class="propertysel form-control"></select>
+									<select id="soldpropsel" class="propertysel form-control gamelang"></select>
 								</div>
 								<div class="btn-group btn-group-justified">
 									<div class="btn-group">
@@ -411,7 +419,7 @@
 								<!-- Mortgaged Properties -->
 								<div class='input-group'>
 									<label for="mortpropsel" class='input-group-addon'>Propiedades Hipotecadas:</label>
-									<select id="mortpropsel" class="propertysel form-control"></select>
+									<select id="mortpropsel" class="propertysel form-control gamelang"></select>
 								</div>
 								<button id="proppaidmortbtn" class="btn btn-primary btn-block" onclick="paidmort($('#mortpropsel').val());">
 									Saldar Hipoteca
@@ -438,28 +446,28 @@
 															<div class="panel-body">
 																<p><strong>Nombres:</strong></p>
 																<ul>
-																	<li class="utilelectric"></li>
-																	<li class="utilwater"></li>
+																	<li class="utilelectric gamelang"></li>
+																	<li class="utilwater gamelang"></li>
 																</ul>
 																<p>
 																	<strong>Precio: </strong>
-																	<span class="utilprice"></span>
-																	<span class="currencysymbol"></span>
+																	<span class="utilprice gamelang"></span>
+																	<span class="currencysymbol gamelang"></span>
 																</p>
 																<p>
 																	<strong>Hipoteca:</strong>
-																	<span class="utilmortprice"></span>
-																	<span class="currencysymbol"></span>
+																	<span class="utilmortprice gamelang"></span>
+																	<span class="currencysymbol gamelang"></span>
 																</p>
 																<p><strong>Alquiler:</strong></p>
 																<ul>
 																	<li>
 																		<strong>1 Utilidad: </strong>
-																		<span class="utilrent1"></span>
+																		<span class="utilrent1 gamelang"></span>
 																	</li>
 																	<li>
 																		<strong>2 Utilidades: </strong>
-																		<span class="utilrent2"></span>
+																		<span class="utilrent2 gamelang"></span>
 																	</li>
 																</ul>
 															</div>
@@ -476,7 +484,7 @@
 															<div class="panel-body">
 																<p><strong>Nombres:</strong></p>
 																<!-- Railroads Names -->
-																<ul id="railinfonames">
+																<ul id="railinfonames" class="gamelang">
 																	<script type="text/javascript">
 																		var lilist = "";
 																		for(var i=1; i < 5; i++){
@@ -487,13 +495,13 @@
 																</ul>
 																<p>
 																	<strong>Precio: </strong>
-																	<span class="railprice"></span>
-																	<span class="currencysymbol"></span>
+																	<span class="railprice gamelang"></span>
+																	<span class="currencysymbol gamelang"></span>
 																</p>
 																<p>
 																	<strong>Hipoteca:</strong>
-																	<span class="railmortprice"></span>
-																	<span class="currencysymbol"></span>
+																	<span class="railmortprice gamelang"></span>
+																	<span class="currencysymbol gamelang"></span>
 																</p>
 																<p><strong>Alquiler:</strong></p>
 																<!-- Railroads Rent Prices -->
@@ -503,8 +511,8 @@
 																		for(var i=1; i < 5; i++){
 																			lilist += "<li>" +
 																				"<strong>" + i + " Ferrocarril" + ((i > 1) ? "es" : "") + ": </strong>" +
-																				"<span id='railrent" + i + "'></span>" +
-																				" <span class='currencysymbol'></span>" +
+																				"<span class='gamelang' id='railrent" + i + "'></span>" +
+																				" <span class='currencysymbol gamelang'></span>" +
 																			"</li>";
 																		}
 																		$("#railinforents").html(lilist);
@@ -538,7 +546,7 @@
 																			<th>Casas (costo)</th>
 																		</tr>
 																	</thead>
-																	<tbody id='streetsinfotable'></tbody>
+																	<tbody id='streetsinfotable' class="gamelang"></tbody>
 																</table>
 															</div>
 														</div>
@@ -574,7 +582,7 @@
 											<th>Cantidad</th>
 										</tr>
 									</thead>
-									<tbody id='histtable'></tbody>
+									<tbody id='histtable' class="gamelang"></tbody>
 								</table>
 							</div>
 						</div>

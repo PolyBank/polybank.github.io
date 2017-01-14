@@ -44,7 +44,10 @@ game.players[0] = {
 
 //generate a random color
 function randcolor() {
-	return ("#" + (Math.random() * 0xFFFFFF << 0).toString(16));
+	var num = "#" + (Math.random() * 0xFFFFFF << 0).toString(16);
+	while(num.length < 7)
+			num = "#0" + num.substr(1);
+	return (num);
 }
 
 //loads a .js file
@@ -173,7 +176,7 @@ function onokmodal() {
 
 //loads the java script file (from the 'folder') that holds the chance/comunnity chest texts
 function loadcardstext(folder) {
-	loadjs("JS/" + folder + "/cards.js", "cardscript");
+	loadjs("JS/" + folder + "/cards.min.js", "cardscript");
 }
 
 //loads the card dialog data (title, text) depending on the 'type': chance|comunitychest
@@ -219,7 +222,7 @@ function getrandcard(type) {
 
 //loads the java script file (from the 'folder') that holds the economic data
 function loadeconomicdata(folder){
-	loadjs("JS/" + folder + "/economic_data.js", "economic_data");
+	loadjs("JS/" + folder + "/economic_data.min.js", "economic_data");
 }
 
 //sets the selected initial money value in any component with the class 'indicador-dinero'
