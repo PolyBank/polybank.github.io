@@ -1,3 +1,14 @@
+VERSION 1.3.5.6
+	UI
+		+ added brand new icon for the site
+		+ added header
+		+ modified footer
+		+ added social icons to footer
+	BACKEND
+		+ moved scripts to "functions.js" (except for "title" and "version" class builders)
+		+ added metadata
+		+ added CDN fallback to local
+
 VERSION 1.3.2.4
 	UI
 		+ added language preview of gametype

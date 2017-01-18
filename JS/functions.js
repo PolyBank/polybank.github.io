@@ -1,8 +1,9 @@
 //Global Variables*********************************************************
 
+// timer global variables
+var tmr,target_datehours, minutes, seconds, milliseconds;
 //variable to store the current game currency
 var currencysym = "";
-
 //variable to store the folder name for the selected game version 
 var datafolder = "";
 
@@ -38,7 +39,52 @@ game.players[0] = {
 	houses: {},
 	hotels: {}
 };
-//Global Variables*********************************************************
+//*************************************************************************
+
+//timer *******************************************************************
+function myTimer() {
+	// find the amount of "seconds" between now and target
+	var current_date = new Date().getTime();
+	var milliseconds_left = (target_date - current_date);
+	if (milliseconds_left < 10) {
+		stopTmr();
+		clearTmr();
+		return;
+	}
+
+	// do some time calculations
+	hours = parseInt(milliseconds_left / 3600000);
+	milliseconds_left = milliseconds_left % 3600000;
+
+	minutes = parseInt(milliseconds_left / 60000);
+	milliseconds_left = parseInt(milliseconds_left % 60000);
+
+	seconds = parseInt(milliseconds_left / 1000);
+	milliseconds = parseInt((milliseconds_left % 1000) / 10);
+
+	// set tag value
+	$("#auctionhoursleft").html(pad2(hours));
+	$("#auctionminsleft").html(pad2(minutes));
+	$("#auctionsecsleft").html(pad2(seconds));
+	$("#auctionmillsleft").html(pad2(milliseconds));
+}
+
+//stop the timer
+function stopTmr() {
+	clearInterval(tmr);
+}
+
+//clear the timer
+function clearTmr() {
+	clearInterval(tmr);
+	$(".tmr-segment").html("00");
+}
+
+//returns the number using at least 2 digits
+function pad2(number) {
+	return ((number < 10) ? "0" : "") + number
+}
+//*************************************************************************
 
 //GeneralPurpose Functions*************************************************
 
@@ -60,7 +106,7 @@ function loadjs(src, id) {
 	script.src = src;
 	document.getElementsByTagName('head')[0].appendChild(script);
 }
-//GeneralPurpose Functions*************************************************
+//**************************************************************************
 
 function onokmodal() {
 	var txt = "";
@@ -345,3 +391,154 @@ function appendtransaction(from, to, amount){
 			amount + currencysym
 	]).draw();
 }
+
+$(document).ready(function(){
+	var i;
+	var lilist = "";
+	var len = datasources.length;
+	//element builders **********************************************
+	
+	//railroad names
+	for(var i=1; i < 5; i++){
+		lilist += "<li id='rail" + i + "'></li>";
+	}
+	$("#railinfonames").html(lilist);
+	//railroad rent prices
+	lilist = "";
+	for(i=1; i < 5; i++){
+		lilist += "<li>" +
+			"<strong>" + i + " Ferrocarril" + ((i > 1) ? "es" : "") + ": </strong>" +
+			"<span class='gamelang' id='railrent" + i + "'></span>" +
+			" <span class='currencysymbol gamelang'></span>" +
+		"</li>";
+	}
+	$("#railinforents").html(lilist);
+	//load the data for the game version selector
+	for(i=0; i<len; i++){
+		$("#versionsel").append(
+			"<option id='version" + i + 
+				"' value=" + datasources[i].folder + 
+			">" +
+				"<span>" + datasources[i].folder.split("_")[0] + "</span>: " +
+				datasources[i].version +
+			"</option>"
+		);
+	}
+	//load the data to show in the new game dialog
+	onokmodal();
+
+	//***************************************************************
+	
+	//set default currency
+	currencysym = datasources[0].currency;
+	setcurrency();
+	
+	//show the new game dialog
+	$("#modaldialog").modal("show");
+
+	//event listeners ***********************************************
+
+	//the newgame link is pressed on the navbar
+	$("#navbar-newgame").click(function(){game["init"] = 0; onokmodal();});
+
+	//load the random text for the card dialog whenever the correspondant navbar links are pressed
+	$("#navbar-chance"  ).click(function (){loadcarddialogdata("chance")});
+	$("#navbar-comchest").click(function (){loadcarddialogdata("comunitychest")});
+
+	//transfer options event listeners
+	$("#transferbtn").click(function(){transfer()});
+	$("#purchasebtn").click(function(){purchase()});
+
+	//properties event listeners
+	$("#propsoldbtn").click(function(){movetosold($("#avalpropsel").val())});
+	$("#propmortbtn").click(function(){movetomort($("#soldpropsel").val())});
+	$("#propavalbtn").click(function(){movetoaval($("#soldpropsel").val())});
+	$("#proppaidmortbtn").click(function(){paidmort($("#mortpropsel").val())});
+
+	//load the data to show in the new game dialog
+	$("#newgame-ok-btn").click(function(){onokmodal()});
+
+	//change the currency whenever the selected game version changes
+	$("#versionsel").change(function (){
+			currencysym = datasources[$("#versionsel").prop("selectedIndex")].currency; 
+			setcurrency();
+	});
+	//bill canvas resizer
+	$(window).resize(function(){
+		if( $("#bill").length ){
+			drawbill("bill", ($(window).width() < 450) ? $(window).width()-50 : 400, "#d7ce22", "mainbill");
+		}
+	});
+	//auction timer event listeners
+	$("#starttmr-btn").click(function(){
+		target_date = new Date(
+			Date.now() +
+			parseInt($("#tmr-mills").val()) * 10 +
+			parseInt($("#tmr-secs" ).val()) * 1000 +
+			parseInt($("#tmr-mins" ).val()) * 60000 +
+			parseInt($("#tmr-hours").val()) * 3600000
+		).getTime();
+		tmr = setInterval(function(){myTimer()}, 10);
+	});
+	$("#stoptmr-btn" ).click(function(){stopTmr()});
+	$("#resettmr-btn").click(function(){clearTmr()});
+
+	//default transfer options event listeners
+	$("#transgoamount").click(function(){
+		$("#transamount"    ).val(game.goamount);
+		$("#transfromplayer").val("0");
+	});
+	$("#luxurytaxbtn").click(function(){
+		$("#transamount"  ).val(game.taxes.luxury);
+		$("#transtoplayer").val("0");
+	});
+	$("#incometaxbtn").click(function(){
+		$("#transamount"  ).val(game.taxes.income[1]);
+		$("#transtoplayer").val("0");
+	});
+	
+	//***************************************************************
+
+	//datatable config **********************************************
+
+	$(".DataTable").DataTable({
+		language: {
+			"sProcessing":     "Procesando...",
+			"sLengthMenu":     "Mostrar _MENU_ registros",
+			"sZeroRecords":    "No se encontraron resultados",
+			"sEmptyTable":     "Ningún dato disponible en esta tabla",
+			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			"sInfoPostFix":    "",
+			"sSearch":         "Buscar:",
+			"sUrl":            "",
+			"sInfoThousands":  ",",
+			"sLoadingRecords": "Cargando...",
+			"oPaginate": {
+				"sFirst":    "Primero",
+				"sLast":     "Último",
+				"sNext":     "Siguiente",
+				"sPrevious": "Anterior"
+			},
+			"oAria": {
+				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			}
+		},
+		scrollY: 300,
+		scrollX: true,
+		scrollCollapse: true,
+		columnDefs: [{
+			"targets": 0,
+			"createdCell": function (td, cellData, rowData, row, col) {
+				if ( cellData.length === 7 && /#[0-9|a-f]{6}/i.test( cellData ) ) {
+					$(td).css("background-color", cellData)
+					$(td).html("");
+				}
+			}
+		}]
+	});
+
+	//***************************************************************
+});

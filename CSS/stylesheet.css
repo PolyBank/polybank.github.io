@@ -6,13 +6,27 @@
 /*# sourceMappingURL=stylesheet.css.map */
 
 footer{
-	padding: 5px;
-	border-top: 1px solid lightblue;
+	color: darkblue;
+    bottom:0px;
+    width: 100%;
+	margin-top: 10px;
+	padding: 10px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,95aabf+100 */
+	background: #f2f2f2;
 }
 
 .navbar-operations, #navbar-home{
 	cursor: pointer;
 }
+
+/*Uncomment if you place an img in a navbar
+.navbar-brand img {
+	max-height: 100%;
+	height: 100%;
+	width: auto;
+	margin: 0 auto;
+}
+*/
 
 .cant-dinero{
 	position: relative;
@@ -24,6 +38,22 @@ footer{
 	margin-top: -1%;
 	margin-right: -50%; 
 	transform: translate(-50%, -50%);
+}
+
+#purchasebtn{
+	color: #664400;
+	background-color: #ffcc00;
+}
+
+#header{
+	top: 0px;
+	padding: 20px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cfe7fa+0,6393c1+100;Grey+Blue+3D */
+	background: rgb(207,231,250); /* Old browsers */
+	background: -moz-linear-gradient(-45deg,  rgb(207,231,250) 0%, rgb(99,147,193) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg,  rgb(207,231,250) 0%,rgb(99,147,193) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg,  rgb(207,231,250) 0%,rgb(99,147,193) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 #transactiondiv{
