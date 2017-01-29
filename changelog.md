@@ -1,3 +1,7 @@
+## VERSION 1.4.0.0
+	### UI
+		+	added index column to history
+
 ## VERSION 1.3.5.9
 	### BACKEND
 		+	moved PolyBank-logo.svg to a separate IMG folder

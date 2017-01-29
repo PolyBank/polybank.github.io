@@ -407,9 +407,10 @@ function appendtransaction(from, to, amount){
 
 	//appends the transaction to the shown history table
 	$('#histdatatable').DataTable().row.add([
-			game["players"][from].name,
-			game["players"][to].name,
-			amount + currencysym
+		game.hist.length,
+		game["players"][from].name,
+		game["players"][to].name,
+		amount + currencysym
 	]).draw();
 }
 
