@@ -7,6 +7,11 @@ var currencysym = "";
 //variable to store the folder name for the selected game version 
 var datafolder = "";
 
+var histdescriptions = {
+	transfer: "Transferencia",
+	propsell: "Venta de propiedad"
+};
+
 //variable to store the current game data
 var game = {
 	init: 	   0,  //it stores the current state of the new game dialog
@@ -36,6 +41,7 @@ game.players[0] = {
 	color:  "",
 	money:  Infinity,
 	worth:  Infinity,
+	properties: [],
 	houses: {},
 	hotels: {}
 };
@@ -160,7 +166,7 @@ function onokmodal() {
 				"<input type='color' id='colorsel" + i + "' class='form-control input-sm' value='" + randcolor() + "'>" +
 				"</div>" +
 				"<script>" +
-				"game['players'][" + i + "] = {name: '', color: $('#colorsel" + i + "').val(), money: game['initmoney'], worth: game['initmoney'], houses: 0, hotels: 0};" +
+				"game['players'][" + i + "] = {name: '', color: $('#colorsel" + i + "').val(), money: game['initmoney'], worth: game['initmoney'], properties: [], houses: 0, hotels: 0};" +
 				"$('#colorsel" + i + "').change(function(){game['players'][" + i + "].color = $(this).val();});" +
 				"$('#Nombre" + i + "').change(function(){game['players'][" + i + "].name = $(this).val();});" +
 				"</script>" +
@@ -177,9 +183,6 @@ function onokmodal() {
 		txt = "<center>" +
 			"<div class='cant-dinero'>" +
 			"<div id='bill'></div>" +
-			"<script>" +
-			"drawbill('bill', ($(document).width() < 450) ? $(document).width()-50 : 400, '#d7ce22', 'mainbill');" +
-			"</script>" +
 			"<h1 class='indicador-dinero'></h1>" +
 			"</div>" +
 			"</center>" +
@@ -192,7 +195,6 @@ function onokmodal() {
 			"type='number'" +
 			"onchange='setInitialMoney()'" +
 			"value='0'>" +
-			"<script>setInitialMoney();</script>" +
 			"<div class='currencysymbol input-group-addon'></div>" +
 			"</div>" +
 			"</div>" +
@@ -209,6 +211,10 @@ function onokmodal() {
 			"</div>" +
 			"</div>" +
 			"</div>";
+		$(document).ready(function($) {
+			drawbill('bill', ($(document).width() < 450) ? $(document).width()-50 : 400, '#d7ce22', 'mainbill');
+			setInitialMoney();
+		});
 	}
 	//if the user finnished the input of the options,
 	//then it will load the basics (properties, player statistics, cards, ...) of the site
@@ -225,12 +231,10 @@ function onokmodal() {
 		loadcardstext(datafolder);
 
 		//loads the player list on each player selector
-		$('.playersel').each(function() {
-			$(this).html("");
-			for (var i = 0; i <= game["nplayers"]; i++) {
-				$(this).append("<option value=" + i + ">" + game["players"][i].name + "</option>");
-			}
-		});
+		$('.playersel').html("");
+		for (var i = 0; i <= game["nplayers"]; i++) {
+			$('.playersel').append("<option value=" + i + ">" + game["players"][i].name + "</option>");
+		}
 
 		updateplayertable(); 			 	 //updates the shown players info
 		$("#histdatatable").DataTable().clear(); //clears the history table
@@ -257,6 +261,29 @@ function loadcarddialogdata(type){
 			break;
 	};
 	$("#carddialogtxt").html(getrandcard(type));
+}
+
+//executed when an avaliable property is sold to someone
+function sellaval() {
+	var prop   = $("#sellavalprop"  ).prop('selectedIndex');
+	var to     = $("#sellavalpropto").prop('selectedIndex');
+	var amount = parseFloat($("#sellavalpropcost").html());
+
+	game["players"][to].properties.push(game["avalprops"][prop]);
+	//updates the amount of money and the player's worth
+	addmoney(to, -amount);
+	addworth(to, amount);
+
+	movetosold(prop);
+	
+	//append purchase to history
+	appendtohistory(0, to, amount, histdescriptions.propsell);
+	//updates the shown player info
+	updateplayertable();
+
+	$("#sellavalpropcost").html(
+		findinprops(game.avalprops[$("#sellavalprop").val()]).price
+	);
 }
 
 //returns a random card of 'type': chance|comunitychest 
@@ -290,12 +317,6 @@ function getrandcard(type) {
 //loads the java script file (from the 'folder') that holds the economic data
 function loadeconomicdata(folder){
 	loadjs("JS/" + folder + "/economic_data.min.js", "economic_data");
-}
-
-//sets the selected initial money value in any component with the class 'indicador-dinero'
-function setInitialMoney() {
-	var money = $('#inicial').val();
-	$('.indicador-dinero').html(money + " " + currencysym);
 }
 
 //updates the table that displays the players info
@@ -340,12 +361,12 @@ function movetoaval(index) {
 
 //updates the lists used by the property selectors
 function updatepropsels() {
-	$("#avalpropsel").html("");
+	$(".avalprop").html("");
 	$("#soldpropsel").html("");
 	$("#mortpropsel").html("");
 
 	for (var i = 0; i < game["avalprops"].length; i++) {
-		$("#avalpropsel").append(
+		$(".avalprop").append(
 			"<option value=" + i + ">" + game["avalprops"][i] + "</option>"
 		);
 	}
@@ -375,34 +396,44 @@ function transfer() {
 	var amount = $("#transamount").val();
 
 	//updates the money amount that each involved player has
-	game["players"][from].money = parseFloat(game["players"][from].money) - parseFloat(amount);
-	game["players"][to].money = parseFloat(game["players"][to].money) + parseFloat(amount);
-	game["players"][from].worth = parseFloat(game["players"][from].worth) - parseFloat(amount);
-	game["players"][to].worth = parseFloat(game["players"][to].worth) + parseFloat(amount);
+	addmoney(from, -amount);
+	addmoney(to, amount);
+	addworth(from, -amount);
+	addworth(to, amount);
 
-	appendtransaction(from, to, amount);
+	appendtohistory(from, to, amount, histdescriptions.transfer);
 
 	//updates the shown player info
-	updateplayertable(); //this canalso be improved by doing this dinamically
+	updateplayertable(); //this can also be improved by doing this dinamically
 }
+
+function addmoney(index, amount) {
+	game["players"][index].money = parseFloat(game["players"][index].money) + parseFloat(amount);
+}
+
+function addworth(index, amount) {
+	game["players"][index].worth = parseFloat(game["players"][index].worth) + parseFloat(amount);
+}
+
 
 function purchase() {
 	var from = $("#transfromplayer").prop('selectedIndex');
 	var to = $("#transtoplayer").prop('selectedIndex');
 	var amount = $("#transamount").val();
 
-	game["players"][from].worth = parseFloat(game["players"][from].worth) + parseFloat(amount);
-	game["players"][to].worth = parseFloat(game["players"][to].worth) - parseFloat(amount);
+	addworth(from, amount);
+	addworth(to, -amount);
 
 	transfer();
 }
 
-function appendtransaction(from, to, amount){
+function appendtohistory(from, to, amount, description){
 	//saves into the history variable
 	game.hist.push({
 		from: game["players"][from].name,
 		to: game["players"][to].name,
-		amount: parseFloat(amount)
+		amount: parseFloat(amount),
+		description: description
 	});
 
 	//appends the transaction to the shown history table
@@ -410,14 +441,42 @@ function appendtransaction(from, to, amount){
 		game.hist.length,
 		game["players"][from].name,
 		game["players"][to].name,
-		amount + currencysym
+		amount + currencysym,
+		description
 	]).draw();
+}
+
+function setInitialMoney() {
+	var money = $('#inicial').val();
+	$('.indicador-dinero').html(money + " " + currencysym);
+}
+
+function findinprops(propname) {
+	if(game.propsdet.utilities.electric === propname || game.propsdet.utilities.water === propname) {
+		return game.propsdet.utilities;
+	}
+	for (var i = 0; i < game.propsdet.railroads.names.length; i++) {
+		if(game.propsdet.railroads.names[i] === propname){
+			return game.propsdet.railroads;
+		}
+	}
+
+	for(var i = 0; i < game.propsdet.streets.length; i++) {
+		for (var j = 0; j < game.propsdet.streets[i].data.length; j++) {
+			if(game.propsdet.streets[i].data[j].name === propname) {
+				return game.propsdet.streets[i].data[j];
+			}
+		}
+	}
 }
 
 $(document).ready(function(){
 	var i;
 	var lilist = "";
 	var len = datasources.length;
+
+	$('[data-toggle="tooltip"]').tooltip();
+	
 	//element builders **********************************************
 	
 	//railroad names
@@ -460,7 +519,14 @@ $(document).ready(function(){
 
 	//event listeners ***********************************************
 
-	//the newgame link is pressed on the navbar
+	//show the price of the property to sell
+	$("#sellavalprop").change(function (){
+		var propname = game.avalprops[$("#sellavalprop").val()];
+
+		$("#sellavalpropcost").html(findinprops(propname).price);
+	});
+
+	//when the newgame link is pressed on the navbar
 	$("#navbar-newgame").click(function(){game["init"] = 0; onokmodal();});
 
 	//load the random text for the card dialog whenever the correspondant navbar links are pressed
@@ -469,13 +535,8 @@ $(document).ready(function(){
 
 	//transfer options event listeners
 	$("#transferbtn").click(function(){transfer()});
-	$("#purchasebtn").click(function(){purchase()});
 
 	//properties event listeners
-	$("#propsoldbtn").click(function(){movetosold($("#avalpropsel").val())});
-	$("#propmortbtn").click(function(){movetomort($("#soldpropsel").val())});
-	$("#propavalbtn").click(function(){movetoaval($("#soldpropsel").val())});
-	$("#proppaidmortbtn").click(function(){paidmort($("#mortpropsel").val())});
 
 	//load the data to show in the new game dialog
 	$("#newgame-ok-btn").click(function(){onokmodal()});

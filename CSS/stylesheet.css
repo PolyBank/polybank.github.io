@@ -6,17 +6,25 @@
 /*# sourceMappingURL=stylesheet.css.map */
 
 footer{
-	color: darkblue;
+	color: #9d9d9d;
+	background-color: #222;
     bottom:0px;
     width: 100%;
 	margin-top: 10px;
 	padding: 10px;
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,95aabf+100 */
-	background: #f2f2f2;
+}
+
+a.disabled {
+	color: lightgrey !important;
+	pointer-events: none;
 }
 
 .navbar-operations, #navbar-home{
 	cursor: pointer;
+}
+
+.panel-group {
+    margin-bottom: 0;
 }
 
 /*Uncomment if you place an img in a navbar
@@ -40,9 +48,13 @@ footer{
 	transform: translate(-50%, -50%);
 }
 
-#purchasebtn{
+.btn-yellow{
 	color: #664400;
 	background-color: #ffcc00;
+}
+
+.btn-yellow:hover{
+	background-color: #e0b300;
 }
 
 #header{
@@ -56,12 +68,35 @@ footer{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
-#transactiondiv{
+#lang-sel > li > a > .lang-code {
+	color: lightgrey;
+	float: right;
+}
+
+#properties > div > div {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#optdefaultholder {
+	text-align: center;
+}
+
+#transactiondiv, #goamountgroup{
 	margin: 10px;
+}
+
+#transactiondiv > h4, body > .panel-group {
+	margin-top: 1em;
 }
 
 #transactiondiv div{
 	margin-bottom: 1ex;
+}
+
+#playeroperations>div {
+	margin-top: 15px;
+	text-align: center;
 }
 
 #carddialogtxt{
@@ -80,6 +115,7 @@ footer{
 	margin-top: 10px;
 }
 
-#goamountgroup{
-	margin: 10px;
+@media screen and (max-width: 768px) {
+	.dataTables_info { display: none; }
+	#lang-sel > li > a.disabled, #lang-sel > li > a > .lang-code { color: dimgrey !important; }
 }

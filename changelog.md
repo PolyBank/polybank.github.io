@@ -1,3 +1,5 @@
+	### UI
+		+	improved responsiveness
 ## VERSION 1.4.0.0
 	### UI
 		+	added index column to history
