@@ -276,4 +276,7 @@ $('#streetsdatatable').DataTable().draw();
 
 //reloads the property selectors
 updatepropsels();
+
+//shows the current player's transaction data
+loadplayeropts();
 //-------------------------------------------------------------

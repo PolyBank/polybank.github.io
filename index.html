@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- site version: 2.0.0.0 -->
 <html lang="es">
 <head>
 	<title class="title"></title>
@@ -242,9 +243,9 @@
 	<!-- Modal Dialogs ^ **************************************--> 
 
 	<!-- Transaction input -->
-	<div id="transactiondiv">
-		<h4>Transacciones:</h4>
-		<div id="transferoperations">
+	<div id="transactiondiv" class="row">
+		<div id="transferoperations" class="col-sm-6">
+			<h4>Transacciones:</h4>
 			<!-- Default Options -->
 			<div class="input-group">
 				<label class="input-group-addon">Opciones<br>Preconfiguradas:</label>
@@ -270,31 +271,33 @@
 				<select id="transtoplayer" class="playersel form-control"></select>
 			</div>
 			<!-- Transfer Button -->
-			<button id="transferbtn" class="btn btn-primary btn-block">Transferir</button>
+			<button id="transferbtn" class="btn btn-success btn-block">Transferir</button>
 		</div>
 		
 		<!-- Avaliable Properties purchase input -->
-		<h4>Venta de Propiedades:</h4>
-		<form action="javascript:sellaval()">
-			<div class="input-group">
-				<label for="sellavalprop" class="input-group-addon">Propiedades Disponibles:</label>
-				<select id="sellavalprop" class="avalprop form-control gamelang"></select>
-				<div class="input-group-addon"><span class="currencysymbol"></span> <span id="sellavalpropcost"></span></div>
-			</div>
-			<div class="input-group">
-				<label for="sellavalpropto" class="input-group-addon">Vender a:</label>
-				<select id="sellavalpropto" class="playersel form-control"></select>
-			</div>
-			<input type="submit" class="btn btn-block btn-primary" value="Vender">
-		</form>	
+		<div class="col-sm-6">
+			<h4>Venta de Propiedades:</h4>
+			<form action="javascript:sellaval()">
+				<div class="input-group">
+					<label for="sellavalprop" class="input-group-addon">Propiedades Disponibles:</label>
+					<select id="sellavalprop" class="avalprop form-control gamelang"></select>
+					<div class="input-group-addon"><span class="currencysymbol"></span> <span id="sellavalpropcost"></span></div>
+				</div>
+				<div class="input-group">
+					<label for="sellavalpropto" class="input-group-addon">Vender a:</label>
+					<select id="sellavalpropto" class="playersel form-control"></select>
+				</div>
+				<input type="submit" class="btn btn-block btn-primary" value="Vender">
+			</form>
+		</div>
 	</div>
 
-	<!-- Players Transactions  **In Construction!!**-->
+	<!-- Players Transactions -->
 	<div class="panel-group">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a data-toggle="collapse" href="#players" class="disabled">Transacciones por jugador: (En Construcción)</a>
+					<a data-toggle="collapse" href="#players">Transacciones por jugador:</a>
 				</h4>
 			</div>
 			<div id="players" class="panel-collapse collapse">
@@ -312,42 +315,50 @@
 								<select id="curplayerprops" class="form-control gamelang"></select>
 							</div>
 						</div>
-						<!-- Mortgage property -->
-						<div class="input-group">
-							<button id="mortpropbtn" class="form-control btn btn-primary btn-block">Hipotecar</button>
-							<div class="input-group-addon"><span class="currencysymbol"></span> <span id="mortpropcost"></span></div>
-						</div>
+						
 						<!-- Buy Houses -->
 						<div class="input-group">
 							<label class="input-group-addon">
 								Casas/Hoteles <span class="currencysymbol"></span> <span id="buyhousesprice"></span>:
 							</label>
-							<button id="buyhousebtn" class="form-control btn btn-primary">Comprar</button>
-							<button id="sellhousebtn" class="form-control btn btn-primary">Vender</button>
+							<button id="buyhousebtn" class="playertbtn form-control btn btn-primary">Comprar</button>
+							<button id="sellhousebtn" class="playertbtn form-control btn btn-primary">Vender</button>
 						</div>
-						<!-- Sell Property -->
-						<div>
-							Vender Propiedad:
-							<div class="input-group">
-								<label for="sellpropprice" class="input-group-addon">Precio de venta:</label>
-								<input type="number" id="sellpropprice" class="form-control">
-								<div class="input-group-addon"><span class="currencysymbol"></span></div>
+						<div id="propmortholder" class="row">
+							<!-- Sell Property -->
+							<div class="col-sm-6">
+								<strong>Vender Propiedad:</strong>
+								<div class="input-group">
+									<label for="sellpropprice" class="input-group-addon">Precio de venta:</label>
+									<input type="number" id="sellpropprice" class="form-control" min="0" value="0">
+									<div class="input-group-addon"><span class="currencysymbol"></span></div>
+								</div>
+								<div class="input-group">
+									<label for="sellplayertoplayer" class="input-group-addon">Vender a:</label>
+									<select id="sellplayertoplayer" class="playersel form-control"></select>
+								</div>
+								<button id="sellpropbtn" class="playertbtn btn btn-success btn-block">Vender</button>
 							</div>
-							<button id="sellpropbtn" class="btn btn-primary btn-block">Vender</button>
-						</div>
-						<!-- Pay Mortgage -->
-						<div>
-							Propiedades hipotecadas:
-							<div class="input-group">
-								<label for="curplayermortprops" class="input-group-addon">Hipotecadas:</label>
-								<select id="curplayermortprops" class="form-control gamelang"></select>
-								<div class="input-group-addon"><span class="currencysymbol"></span> <span id="mortpaycost"></span></div>
+							
+							<div class="col-sm-6">
+								<strong>Hipoteca:</strong>
+								<!-- Mortgage property -->
+								<div class="input-group">
+									<button id="mortpropbtn" class="playertbtn form-control btn btn-primary btn-block">Hipotecar</button>
+									<div class="input-group-addon"><span class="currencysymbol"></span> <span id="mortpropcost"></span></div>
+								</div>
+								<!-- Pay Mortgage -->
+								<div class="input-group">
+									<label for="curplayermortprops" class="input-group-addon">Hipotecadas:</label>
+									<select id="curplayermortprops" class="form-control gamelang"></select>
+									<div class="input-group-addon"><span class="currencysymbol"></span> <span id="mortpaycost"></span></div>
+								</div>
+								<button id="paymortbtn" class="playertbtn btn btn-warning btn-block">Saldar Hipoteca</button>
 							</div>
-							<button id="paymortbtn" class="btn btn-warning btn-block">Saldar Hipoteca</button>
 						</div>
-
+							
 						<!-- Declare broke -->
-						<button id="mortpropbtn" class="btn btn-danger btn-block">Declarar Banca Rota</button>
+						<div><button id="bankruptbtn" class="playertbtn btn btn-danger btn-block">Declarar Banca Rota</button></div>
 					</div>
 				</div>
 			</div>
@@ -356,7 +367,7 @@
 
 	<!-- Statistics -->
 	<div class="panel-group">
-		<div class="panel panel-primary">
+		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a data-toggle="collapse" href="#statistics">Estadisticas</a>
@@ -379,10 +390,39 @@
 			</div>
 		</div>
 	</div>
-	
+	<!-- Transaction History -->
+	<div class="panel-group">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" href="#hist">Historial</a>
+				</h4>
+			</div>
+			<div id="hist" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="panel-group" id="propinfopanels">
+						<div class="panel panel-default">
+							<table id="histdatatable" class="table DataTable">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Desde</th>
+										<th>Hacia</th>
+										<th>Cantidad</th>
+										<th>Descripción</th>
+									</tr>
+								</thead>
+								<tbody id="histtable" class="gamelang"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Properties Group -->
 	<div class="panel-group">
-		<div class="panel panel-default">
+		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a data-toggle="collapse" href="#properties">Propiedades</a>
@@ -407,7 +447,7 @@
 					</div>
 					<!-- Properties Detailed Info -->
 					<div class="panel-group">
-						<div class="panel panel-default">
+						<div class="panel panel-info">
 							<div class="panel-heading">
 								<h4 class="panel-title">
 									<a data-toggle="collapse" href="#propinfo">Info. Propiedades</a>
@@ -520,36 +560,6 @@
 				</div>
 			</div>
 		</div>
-	</div>		
-	<!-- Transaction History -->
-	<div class="panel-group">
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h4 class="panel-title">
-					<a data-toggle="collapse" href="#hist">Historial</a>
-				</h4>
-			</div>
-			<div id="hist" class="panel-collapse collapse">
-				<div class="panel-body">
-					<div class="panel-group" id="propinfopanels">
-						<div class="panel panel-default">
-							<table id="histdatatable" class="table DataTable">
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>Desde</th>
-										<th>Hacia</th>
-										<th>Cantidad</th>
-										<th>Descripción</th>
-									</tr>
-								</thead>
-								<tbody id="histtable" class="gamelang"></tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 
 	<footer>
@@ -577,13 +587,12 @@
 
 	<!-- ************************************************************* -->
 	<script src="JS/functions.min.js"></script>
-	<script src="JS/drawbill.min.js"></script>
 	<script src="JS/data_index_list.min.js"></script>
 	<script>
 		//write the title in any element with this class
 		$(".title").html("PolyBank");
 		//Show website version
-		$(".version").html("2.Alpha");
+		$(".version").html("2.0");
 	</script>
 
 </body>

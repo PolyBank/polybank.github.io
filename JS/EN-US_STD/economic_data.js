@@ -250,6 +250,7 @@ $.each(game.propsdet.railroads.names, function(i, name) {
 //shows the price of the default availiable property
 $("#sellavalpropcost").html(findinprops(game.avalprops[0]).price);
 
+
 //reloads the streets info
 $('#streetsdatatable').DataTable().clear();
 $.each(game.propsdet.streets, function(index, group) {
@@ -273,4 +274,7 @@ $('#streetsdatatable').DataTable().draw();
 
 //reloads the property selectors
 updatepropsels();
+
+//shows the current player's transaction data
+loadplayeropts();
 //-------------------------------------------------------------

@@ -8,8 +8,13 @@ var currencysym = "";
 var datafolder = "";
 
 var histdescriptions = {
-	transfer: "Transferencia",
-	propsell: "Venta de propiedad"
+	transfer   : "Transferencia",
+	propsell   : "Venta de propiedad",
+	mortprop   : "Propiedad hipotecada",
+	mortpaid   : "Hipoteca saldada",
+	housebought: "Compra de casa/hotel",
+	housesold  : "Venta de casa/hotel",
+	setbankrupt: "Declaración de banca rota"
 };
 
 //variable to store the current game data
@@ -41,9 +46,6 @@ game.players[0] = {
 	color:  "",
 	money:  Infinity,
 	worth:  Infinity,
-	properties: [],
-	houses: {},
-	hotels: {}
 };
 //*************************************************************************
 
@@ -153,26 +155,28 @@ function onokmodal() {
 		for (var i = 1; i <= game["nplayers"]; i++) {
 			txt += "<table class='table' id='jugador" + i + "'>" +
 				"<thead><tr><th><center><b>Jugador: " + i + "</b></center></th></tr></thead>" +
-				"<tbody><tr><td>" +
-				"<div class='form-group row'>" +
-				"<label for='Nombre" + i + "' class='col-xs-2 col-form-label'>Nombre:</label>" +
-				"<div class='col-xs-10'>" +
-				"<input type='text' id='Nombre" + i + "' class='form-control input-sm' placeholder='AndRBR'>" +
-				"</div>" +
-				"</div>" +
-				"<div class='form-group row'>" +
-				"<label for='colorsel" + i + "' class='col-xs-2 col-form-label'>Color:</label>" +
-				"<div class='col-xs-10'>" +
-				"<input type='color' id='colorsel" + i + "' class='form-control input-sm' value='" + randcolor() + "'>" +
-				"</div>" +
-				"<script>" +
-				"game['players'][" + i + "] = {name: '', color: $('#colorsel" + i + "').val(), money: game['initmoney'], worth: game['initmoney'], properties: [], houses: 0, hotels: 0};" +
-				"$('#colorsel" + i + "').change(function(){game['players'][" + i + "].color = $(this).val();});" +
-				"$('#Nombre" + i + "').change(function(){game['players'][" + i + "].name = $(this).val();});" +
-				"</script>" +
-				"</div>" +
-				"</td></tr><tbody>" +
-				"</table>";
+				"<tbody>" +
+					"<tr><td>" +
+						"<div class='form-group row'>" +
+							"<label for='Nombre" + i + "' class='col-sm-2 col-form-label'>Nombre:</label>" +
+							"<div class='col-sm-10'>" +
+								"<input type='text' id='Nombre" + i + "' class='form-control input-sm' placeholder='AndRBR'>" +
+							"</div>" +
+						"</div>" +
+						"<div class='form-group row'>" +
+							"<label for='colorsel" + i + "' class='col-sm-2 col-form-label'>Color:</label>" +
+							"<div class='col-sm-10'>" +
+								"<input type='color' id='colorsel" + i + "' class='form-control input-sm' value='" + randcolor() + "'>" +
+							"</div>" +
+							"<script>" +
+								"game.players[" + i + "] = {name: '', color: $('#colorsel" + i + "').val(), money: game['initmoney'], worth: game['initmoney'], properties: [], houses: 0};" +
+								"$('#colorsel" + i + "').change(function(){game.players[" + i + "].color = $(this).val();});" +
+								"$('#Nombre" + i + "').change(function(){game.players[" + i + "].name = $(this).val();});" +
+							"</script>" +
+						"</div>" +
+					"</td></tr>" +
+				"<tbody>" +
+			"</table>";
 		}
 
 	}
@@ -180,39 +184,28 @@ function onokmodal() {
 	//then it will show the option to choose the initial money and number of players
 	else if (game["init"] === 0) {
 		game["init"]++;
-		txt = "<center>" +
-			"<div class='cant-dinero'>" +
-			"<div id='bill'></div>" +
-			"<h1 class='indicador-dinero'></h1>" +
-			"</div>" +
-			"</center>" +
+		txt += "<div id='bill'><h1 id='indicador-dinero'></h1></div>" +
 			"<div id='optjuego'>" +
-			"<div id='divinicial' class='form-group row'>" +
-			"<label for='inicial' class='col-xs-3 col-form-label'>Dinero Inicial:</label>" +
-			"<div class='input-group col-xs-9'>" +
-			"<input id='inicial'" +
-			"class='form-control input-sm'" +
-			"type='number'" +
-			"onchange='setInitialMoney()'" +
-			"value='0'>" +
-			"<div class='currencysymbol input-group-addon'></div>" +
+				"<div id='divinicial' class='form-group row'>" +
+					"<label for='inicial' class='col-sm-3 col-form-label'>Dinero Inicial:</label>" +
+					"<div class='input-group col-sm-9'>" +
+						"<input id='inicial' class='form-control input-sm' type='number' value='0'>" +
+						"<div class='currencysymbol input-group-addon'></div>" +
+					"</div>" +
+				"</div>" +
+				"<div class='form-group row'>" +
+					"<label for='nJugadores' class='col-sm-3 col-form-label'># Jugadores:</label>" +
+					"<div class='col-sm-9'>" +
+						"<input id='nJugadores' type='number' class='form-control input-sm' value='0' min='0' max='9' step='1'>" +
+					"</div>" +
+				"</div>" +
 			"</div>" +
-			"</div>" +
-			"<div class='form-group row'>" +
-			"<label for='nJugadores' class='col-xs-3 col-form-label'># Jugadores:</label>" +
-			"<div class='col-xs-9'>" +
-			"<input id='nJugadores'" +
-			"type='number'" +
-			"class='form-control input-sm'" +
-			"value='0'" +
-			"min='0'" +
-			"max='9'" +
-			"step='1'>" +
-			"</div>" +
-			"</div>" +
-			"</div>";
+			"<script>" +
+				"$('#inicial').change(function() {" +
+					"setInitialMoney();" +
+				"});" +
+			"</script>";
 		$(document).ready(function($) {
-			drawbill('bill', ($(document).width() < 450) ? $(document).width()-50 : 400, '#d7ce22', 'mainbill');
 			setInitialMoney();
 		});
 	}
@@ -231,10 +224,7 @@ function onokmodal() {
 		loadcardstext(datafolder);
 
 		//loads the player list on each player selector
-		$('.playersel').html("");
-		for (var i = 0; i <= game["nplayers"]; i++) {
-			$('.playersel').append("<option value=" + i + ">" + game["players"][i].name + "</option>");
-		}
+		updateplayersel();
 
 		updateplayertable(); 			 	 //updates the shown players info
 		$("#histdatatable").DataTable().clear(); //clears the history table
@@ -243,6 +233,14 @@ function onokmodal() {
 
 	//loads the txt (as html) to the new game dialog body
 	$("#modaldialogbody").html(txt);
+}
+
+//updates player selectors
+function updateplayersel() {
+	$('.playersel').html("");
+	for (var i = 0; i <= game["nplayers"]; i++) {
+		$('.playersel').append("<option value=" + i + ">" + game.players[i].name + "</option>");
+	}
 }
 
 //loads the java script file (from the 'folder') that holds the chance/comunnity chest texts
@@ -269,7 +267,7 @@ function sellaval() {
 	var to     = $("#sellavalpropto").prop('selectedIndex');
 	var amount = parseFloat($("#sellavalpropcost").html());
 
-	game["players"][to].properties.push(game["avalprops"][prop]);
+	game.players[to].properties.push(game.avalprops[prop]);
 	//updates the amount of money and the player's worth
 	addmoney(to, -amount);
 	addworth(to, amount);
@@ -280,6 +278,8 @@ function sellaval() {
 	appendtohistory(0, to, amount, histdescriptions.propsell);
 	//updates the shown player info
 	updateplayertable();
+	//updates the player options
+	loadplayeropts();
 
 	$("#sellavalpropcost").html(
 		findinprops(game.avalprops[$("#sellavalprop").val()]).price
@@ -321,41 +321,31 @@ function loadeconomicdata(folder){
 
 //updates the table that displays the players info
 function updateplayertable() {
-	$('#playerstable').DataTable().clear();
+	var table = $('#playerstable').DataTable();
+	table.clear();
 	for (var i = 0; i <= game["nplayers"]; i++) {
-		$('#playerstable').DataTable().row.add([
-			game["players"][i].color,
-			game["players"][i].name,
-			game["players"][i].money,
-			game["players"][i].worth
+		table.row.add([
+			game.players[i].color,
+			game.players[i].name,
+			game.players[i].money,
+			game.players[i].worth
 		]);
 	}
-	$('#playerstable').DataTable().draw();
+
+	table.draw();
 }
 
 //moves the selected 'available property' to the list of sold properties
 function movetosold(index) {
-	game["soldprops"].push(game["avalprops"][index]);
-	game["avalprops"].splice(index, 1);
-	updatepropsels();
-}
-
-//copies the selected 'sold property' to the list of mortgaged properties
-function movetomort(index) {
-	game["mortprops"].push(game["soldprops"][index]);
-	updatepropsels();
-}
-
-//removes the selected 'mortgaged property' from this list
-function paidmort(index) {
-	game["mortprops"].splice(index, 1);
+	game.soldprops.push(game.avalprops[index]);
+	game.avalprops.splice(index, 1);
 	updatepropsels();
 }
 
 //moves the selected 'sold property' back to the list of available properties
 function movetoaval(index) {
-	game["avalprops"].push(game["soldprops"][index]);
-	game["soldprops"].splice(index, 1);
+	game.avalprops.push(game.soldprops[index]);
+	game.soldprops.splice(index, 1);
 	updatepropsels(); //this can be improved by adding or eliminating properties dinamically in the selectors instead of reloading them
 }
 
@@ -365,21 +355,21 @@ function updatepropsels() {
 	$("#soldpropsel").html("");
 	$("#mortpropsel").html("");
 
-	for (var i = 0; i < game["avalprops"].length; i++) {
+	for (var i = 0; i < game.avalprops.length; i++) {
 		$(".avalprop").append(
-			"<option value=" + i + ">" + game["avalprops"][i] + "</option>"
+			"<option value=" + i + ">" + game.avalprops[i] + "</option>"
 		);
 	}
 
-	for (var i = 0; i < game["soldprops"].length; i++) {
+	for (var i = 0; i < game.soldprops.length; i++) {
 		$("#soldpropsel").append(
-			"<option value=" + i + ">" + game["soldprops"][i] + "</option>"
+			"<option value=" + i + ">" + game.soldprops[i] + "</option>"
 		);
 	}
 
-	for (var i = 0; i < game["mortprops"].length; i++) {
+	for (var i = 0; i < game.mortprops.length; i++) {
 		$("#mortpropsel").append(
-			"<option value=" + i + ">" + game["mortprops"][i] + "</option>"
+			"<option value=" + i + ">" + game.mortprops[i] + "</option>"
 		);
 	}
 }
@@ -407,31 +397,113 @@ function transfer() {
 	updateplayertable(); //this can also be improved by doing this dinamically
 }
 
+//add "amount" amount of money to the account of the player indicated by the index
 function addmoney(index, amount) {
-	game["players"][index].money = parseFloat(game["players"][index].money) + parseFloat(amount);
+	game.players[index].money = parseFloat(game.players[index].money) + parseFloat(amount);
 }
 
+//add "amount" amount of money to the worth of the player indicated by the index
 function addworth(index, amount) {
-	game["players"][index].worth = parseFloat(game["players"][index].worth) + parseFloat(amount);
+	game.players[index].worth = parseFloat(game.players[index].worth) + parseFloat(amount);
 }
 
+//Loads the player specific options
+function loadplayeropts() {
+	var player = game.players[$("#currentplayer").prop('selectedIndex')];
 
-function purchase() {
-	var from = $("#transfromplayer").prop('selectedIndex');
-	var to = $("#transtoplayer").prop('selectedIndex');
-	var amount = $("#transamount").val();
+	$("#curplayerprops").html("");
+	$("#curplayermortprops").html("");
 
-	addworth(from, amount);
-	addworth(to, -amount);
+	//load the properties owned by the player
+	if($("#currentplayer").prop('selectedIndex') === 0) {
+		for (var i = 0; i < game.avalprops.length; i++) {
+			$("#curplayerprops").append("<option value=" + i + ">" + game.avalprops[i] + "</option>");
+		}
+	}
+	else {
+		for(var i=0; i < player.properties.length; i++) {
+			$("#curplayerprops").append("<option value=" + i + ">" + player.properties[i] + "</option>");
+		}
+		//load the properties mortgaged by the player
+		for(var i=0; i < player.properties.length; i++) {
+			for(var j=0; j < game.mortprops.length; j++) {
+				if(player.properties[i] === game.mortprops[j]) {
+					$("#curplayermortprops").append("<option value=" + i + ">" + player.properties[i] + "</option>");
+					break;
+				}
+			}
+		}
+	}
+		
 
-	transfer();
+	//load player's payment amount for it's default properties
+	showhouseandmortprices();
+	showselmortpayprice();
+
+	//disable player transaction buttons, if the selected player is the bank
+	$(".playertbtn").toggleClass("disabled", $("#currentplayer").prop('selectedIndex') === 0);
 }
 
+//shows current player's house and mortgage prices for the selected property
+function showhouseandmortprices() {
+	var propname;
+
+	$("#buyhousesprice").html("");
+	$("#mortpropcost").html("");
+
+	if($("#currentplayer").prop('selectedIndex') == 0) {
+		propname = game.avalprops[$("#curplayerprops").prop('selectedIndex')];
+	}
+	else {
+		propname = game.players[
+				$("#currentplayer").prop('selectedIndex')
+			].properties[
+				$("#curplayerprops").prop('selectedIndex')
+			];
+	}
+
+	if(typeof propname != 'undefined'){
+		//show the mortgage price for the property
+		$("#mortpropcost").html(findinprops(propname).mortprice);
+
+		//try to find the property among the streets
+		for(var i = 0; i < game.propsdet.streets.length; i++) {
+			for (var j = 0; j < game.propsdet.streets[i].data.length; j++) {
+				if(game.propsdet.streets[i].data[j].name === propname) {
+					//show the house price for this property
+					$("#buyhousesprice").html(game.propsdet.streets[i].houseprice);
+				}
+			}
+		}
+	}
+}
+
+//shows current player's mortgage paymentprice for the selected property
+function showselmortpayprice() {
+	var propname;
+	$("#mortpaycost").html("");
+
+	if($("#currentplayer").prop('selectedIndex') == 0) {
+		propname = game.avalprops[$("#curplayerprops").prop('selectedIndex')];
+	}
+	else if($("#curplayermortprops").prop('selectedIndex') >= 0){
+		propname = $("#curplayermortprops")[0][$("#curplayermortprops").prop('selectedIndex')].innerText;
+	}
+	
+	if(typeof propname != 'undefined'){
+		var mortprice = parseFloat(findinprops(propname).mortprice);
+		mortprice += mortprice/10;
+
+		$("#mortpaycost").html(mortprice);
+	}
+}
+
+//appends the performed transaction to the history
 function appendtohistory(from, to, amount, description){
 	//saves into the history variable
 	game.hist.push({
-		from: game["players"][from].name,
-		to: game["players"][to].name,
+		from: game.players[from].name,
+		to: game.players[to].name,
 		amount: parseFloat(amount),
 		description: description
 	});
@@ -439,28 +511,32 @@ function appendtohistory(from, to, amount, description){
 	//appends the transaction to the shown history table
 	$('#histdatatable').DataTable().row.add([
 		game.hist.length,
-		game["players"][from].name,
-		game["players"][to].name,
+		game.players[from].name,
+		game.players[to].name,
 		amount + currencysym,
 		description
 	]).draw();
 }
 
+//shows the initial money amount on the bill
 function setInitialMoney() {
 	var money = $('#inicial').val();
-	$('.indicador-dinero').html(money + " " + currencysym);
+	$('#indicador-dinero').html(money + " " + currencysym);
 }
 
+//finds if a property name exists, and if it does, it returns the holder of such property
 function findinprops(propname) {
+	//try to find the property among the utilities 
 	if(game.propsdet.utilities.electric === propname || game.propsdet.utilities.water === propname) {
 		return game.propsdet.utilities;
 	}
+	//try to find the property among the railroads
 	for (var i = 0; i < game.propsdet.railroads.names.length; i++) {
 		if(game.propsdet.railroads.names[i] === propname){
 			return game.propsdet.railroads;
 		}
 	}
-
+	//try to find the property among the streets
 	for(var i = 0; i < game.propsdet.streets.length; i++) {
 		for (var j = 0; j < game.propsdet.streets[i].data.length; j++) {
 			if(game.propsdet.streets[i].data[j].name === propname) {
@@ -536,7 +612,154 @@ $(document).ready(function(){
 	//transfer options event listeners
 	$("#transferbtn").click(function(){transfer()});
 
-	//properties event listeners
+	//reload player's transaction data whenever this one changes
+	$("#currentplayer").change(function() {
+		loadplayeropts();
+	});
+	//show the selected player's house and mortgage prices
+	$("#curplayerprops").change(function() {
+		showhouseandmortprices();
+	});
+	//show the selected mortgaged property's pay price
+	$("#curplayermortprops").change(function() {
+		showselmortpayprice();
+	});
+
+	//move the property to the mortgaged list
+	$("#mortpropbtn").click(function() {
+		var propindex = $("#curplayerprops").prop('selectedIndex');
+
+		if(propindex >= 0){
+			var from = $("#currentplayer").prop('selectedIndex');
+			var to = 0;
+			var amount = parseFloat($("#mortpropcost").html());
+
+			//updates the money amount the player has
+			addmoney(from, -amount);
+			addworth(from, -amount);
+
+			game.mortprops.push(game.players[from].properties[propindex]);
+			updatepropsels();
+
+			loadplayeropts();
+			appendtohistory(from, to, amount, histdescriptions.mortprop);
+			updateplayertable();
+		}
+	});
+
+	//buy a house
+	$("#buyhousebtn").click(function() {
+		var from = $("#currentplayer").prop('selectedIndex');
+		if($("#buyhousesprice").html() !== "" && from > 0){
+			var to = 0;
+			var amount = parseFloat($("#buyhousesprice").html());
+
+			//updates the money amount the player has
+			addmoney(from, -amount);
+			//adds a house to the player
+			game.players[from].houses++;
+
+			appendtohistory(from, to, amount, histdescriptions.housebought);
+			updateplayertable();
+		}
+	});
+
+	//sell a house
+	$("#sellhousebtn").click(function() {
+		var from = $("#currentplayer").prop('selectedIndex');
+		if($("#buyhousesprice").html() !== "" && from > 0){
+			var to = 0;
+			var amount = parseFloat($("#buyhousesprice").html());
+
+			//updates the money amount the player has
+			addmoney(from, amount);
+			//adds a house to the player
+			game.players[from].houses--;
+
+			appendtohistory(from, to, amount, histdescriptions.housesold);
+			updateplayertable();
+		}
+	});
+
+	//property sell from player to player
+	$("#sellpropbtn").click(function() {
+		var from      = $("#currentplayer").prop('selectedIndex');
+		var to        = $("#sellplayertoplayer").prop('selectedIndex');
+		var propindex = $("#curplayerprops").prop('selectedIndex');
+		var amount    = parseFloat($("#sellpropprice").val());
+		var propval   = parseFloat(findinprops($("#curplayerprops")[0][propindex].innerText).price);
+
+		//updates the money amount the player has
+		addmoney(from, amount);
+		addworth(from, amount - propval);
+
+		//transfers the property
+		if(to === 0){
+			game.avalprops.push(game.players[from].properties[propindex]);
+		}
+		else{
+			addmoney(to, -amount);
+			addworth(to, propval - amount);
+			game.players[to].properties.push(game.players[from].properties[propindex]);
+		}
+
+		game.players[from].properties.splice(propindex, 1);
+		updatepropsels();
+
+		loadplayeropts();
+		appendtohistory(from, to, amount, histdescriptions.propsell);
+		updateplayertable();
+	});
+
+	//pay mortgage of the selected property
+	$("#paymortbtn").click(function() {
+		var propindex = $("#curplayermortprops").prop("selectedIndex");
+
+		//removes the selected 'mortgaged property' from this list
+		if(propindex >= 0) {
+			var from = $("#currentplayer").prop('selectedIndex');
+			var to = 0;
+			var amount = parseFloat($("#mortpaycost").html());
+
+			//updates the money amount that each involved player has
+			addmoney(from, -amount);
+			addworth(from, -amount);
+
+			for(var i=0; i < game.mortprops.length; i++){
+				if(game.mortprops[i] === $("#curplayermortprops")[0][propindex].innerText){
+					game.mortprops.splice(i, 1);
+				}
+			}
+			updatepropsels();
+
+			loadplayeropts();
+			appendtohistory(from, to, amount, histdescriptions.mortpaid);
+			updateplayertable();
+		}
+	});
+
+	//declare bankrupcy
+	$("#bankruptbtn").click(function() {
+		var from = $("#currentplayer").prop('selectedIndex');
+		if(from != 0){
+			game.avalprops.concat(game.players[from].properties);
+			//the history has to be updated before deleting the player
+			appendtohistory(from, from, NaN, histdescriptions.setbankrupt);
+
+			//deletes the player from the game
+			game.players.splice(from, 1);
+			game.nplayers--;
+
+			updateplayersel();
+			updatepropsels();
+			loadplayeropts();
+			updateplayertable();
+		}
+	});
+
+	$(".btn").mouseup(function(){
+		$(this).blur();
+	});
 
 	//load the data to show in the new game dialog
 	$("#newgame-ok-btn").click(function(){onokmodal()});
@@ -546,12 +769,7 @@ $(document).ready(function(){
 			currencysym = datasources[$("#versionsel").prop("selectedIndex")].currency; 
 			setcurrency();
 	});
-	//bill canvas resizer
-	$(window).resize(function(){
-		if( $("#bill").length ){
-			drawbill("bill", ($(window).width() < 450) ? $(window).width()-50 : 400, "#d7ce22", "mainbill");
-		}
-	});
+
 	//auction timer event listeners
 	$("#starttmr-btn").click(function(){
 		target_date = new Date(
@@ -612,15 +830,25 @@ $(document).ready(function(){
 		scrollY: 300,
 		scrollX: true,
 		scrollCollapse: true,
-		columnDefs: [{
-			"targets": 0,
-			"createdCell": function (td, cellData, rowData, row, col) {
-				if ( cellData.length === 7 && /#[0-9|a-f]{6}/i.test( cellData ) ) {
-					$(td).css("background-color", cellData)
-					$(td).html("");
+		columnDefs: [
+			{
+				"targets": 0,
+				"createdCell": function (td, cellData, rowData, row, col) {
+					if ( cellData.length === 7 && /#[0-9|a-f]{6}/i.test( cellData ) ) {
+						$(td).css("background-color", cellData);
+						$(td).html("");
+					}
+				}
+			},
+			{
+				"targets": [2, 3],
+				"createdCell": function (td, cellData, rowData, row, col) {
+					if( cellData < 0 ){
+						$(td).css("color", "#ff0000");
+					}
 				}
 			}
-		}]
+		]
 	});
 
 	//***************************************************************

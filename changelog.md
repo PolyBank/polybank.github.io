@@ -1,12 +1,14 @@
-## VERSION 2.Alpha
+## VERSION 2.0.0.0
 	### UI
+		+	added user specific transactions
 		+	improved responsiveness
 		+	easier to understand statistics
 		+	added description to history
 		+	property sell separated for ease of use
 		+	modified navbar and footer colors
-	### IN CONSTRUCTION
-		+	user specific transactions
+	### BACKEND
+		+	removed now unused function "purchase" from functions.js
+		+	replaced function to draw a bill by svg image
 
 ## VERSION 1.4.0.0
 	### UI

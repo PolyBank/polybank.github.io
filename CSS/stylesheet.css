@@ -1,4 +1,4 @@
-/* 
+/*
     Created on : 25/12/2016, 03:41:05 PM
     Author     : andrbr
 */
@@ -35,18 +35,6 @@ a.disabled {
 	margin: 0 auto;
 }
 */
-
-.cant-dinero{
-	position: relative;
-}
-
-.indicador-dinero{
-	position: absolute; 
-	top:50%; left:50%; 
-	margin-top: -1%;
-	margin-right: -50%; 
-	transform: translate(-50%, -50%);
-}
 
 .btn-yellow{
 	color: #664400;
@@ -115,7 +103,34 @@ a.disabled {
 	margin-top: 10px;
 }
 
+#indicador-dinero{
+	margin-bottom: 0;
+	margin-top: -0.5em;
+}
+
+#propmortholder > div { margin-top: 15px; }
+
+#bill {
+	background: url(../IMG/bill.svg) no-repeat center;
+	background-size: 400px auto;
+	width: 400px;
+	height: 0;
+	padding-top: 20%;
+	padding-bottom: 20%;
+	text-align: center;
+	margin: 0 auto;
+}
+
 @media screen and (max-width: 768px) {
 	.dataTables_info { display: none; }
 	#lang-sel > li > a.disabled, #lang-sel > li > a > .lang-code { color: dimgrey !important; }
+	#divinicial > div.input-group { margin-left: 15px; }
+	#bill {
+		background-size: 80% auto;
+		width: 80%;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	#divinicial + div > div { padding-left: 0; }
 }
