@@ -1,3 +1,13 @@
+## VERSION 2.2.1.3
+	### UI
+		+	added form to send new versions to be reviewed
+		+	added english version of the site
+		+	removed bootstrap tooltip initialization
+	### BACKEND
+		+	version display moved to a separate file to ease modification
+		+	added keywords for search engines
+		+	fixed problem when loading cards before a property was bought
+
 ## VERSION 2.0.0.0
 	### UI
 		+	added user specific transactions

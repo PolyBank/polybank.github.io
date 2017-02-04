@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!-- SendMe.html version: 1.0.0.0 -->
+<html>
+<head>
+	<title>PolyBank (Send me your version)</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Banking site for the game 'Monopoly'">
+	<meta name="keywords" content="MonopolyBank, Monopoly, PolyBank, Poly Bank, Monopoly Bank, Monopolio, Banco para Monopolio, Banco Monopolio, Banco de Monopolio, Banking for Monopoly, Monopoly Banking">
+	<meta name="author" content="AndRBR">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Icons ******************************************************* -->
+	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+	<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="manifest.json">
+	<link rel="mask-icon" href="safari-pinned-tab.svg" color="#036c8a">
+	<meta name="theme-color" content="#ffffff">
+	<meta name="msapplication-config" content="browserconfig.xml" />
+	<!-- ************************************************************* -->
+
+	<!-- FallBack Script ********************************************* -->
+	<script type="text/javascript">
+		window.addEventListener("error", function (e, url) {
+			var eleArray = ["IMG", "SCRIPT", "LINK"];
+			var resourceMap = {
+				"IMG": "Picture file",
+				"SCRIPT": "JavaScript file",
+				"LINK": "CSS file"
+			};
+			var ele = e.target;
+			if(eleArray.indexOf(ele.tagName) != -1){
+				//fallback to  corresponding links
+				var fbacks = {
+					"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"           : "../lib/jquery/jquery-3.1.1.min.js",                         //jQuery JS
+					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"        : "../lib/bootstrap-3.3.7/js/bootstrap.min.js",                //Bootstrap JS
+					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"      : "../lib/bootstrap-3.3.7/css/bootstrap.min.css",              //Bootstrap CSS
+					"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css": "../lib/font-awesome-4.7.0/css/font-awesome.min.css",        //Font Awesome CSS
+				};
+				var url = ele.tagName == "LINK" ? ele.href: ele.src;
+				console.log("src：" + url + " File" + resourceMap[ele.tagName] + "failed loading. Fallback: " + fbacks[url]);
+				if (typeof fbacks[url] != 'undefined'){
+					switch(ele.tagName){
+						case "SCRIPT":
+							document.write("<script src=" + fbacks[url] + "><\/script>");
+							break; 
+						case "LINK":
+							// Grab an element
+							var el = document.getElementsByTagName('head')[0];
+							// Make a new link
+							elChild = document.createElement('link');
+							// Set the attributes
+							elChild.setAttribute("rel", "stylesheet");
+							elChild.setAttribute("href", fbacks[url]);
+							// Jug it into the parent element
+							el.appendChild(elChild);
+							break;
+					};
+				}
+				return true;// dont show in console
+			}
+		}, true);
+	</script>
+	<!-- ************************************************************* -->
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<!-- Font Awesome-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- my stylesheet -->
+	<link rel="stylesheet" type="text/css" href="../CSS/stylesheet.min.css">
+</head>
+<body>
+	<div id="header">
+		<center>
+			<img src="../IMG/PolyBank-logo.svg" height="128px">
+		</center>
+	</div>
+	<!-- Navigation bar -->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" id="navbar-home" href="./">PolyBank</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="https://github.com/ANDRBR/PolyBank/wiki">Wiki</a></li>
+				<li class="active">
+					<a href="#" data-toggle="tooltip" data-placement="auto" title="Envíame tu versión del juego">
+						<span class="glyphicon glyphicon-send"></span>
+					</a>
+				</li>
+				<!-- Language Selector -->
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						<span class="glyphicon glyphicon-globe"></span>
+						<span class="caret"></span>
+						<ul id="lang-sel" class="dropdown-menu">
+							<li><a href="../sendme.html">Español <span class="lang-code">es</span></a></li>
+							<li><a href="#">English <span class="lang-code">en</span></a></li>
+						</ul>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScKyzUlYFNiqFMiFnhflxBYd5vNxUhUEukw-TiO6WGGYGy2Bw/viewform?embedded=true" width="100%" height="2000px" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+
+	<footer>
+		<center>
+			<h1>
+				<span><a href="https://github.com/ANDRBR"><i class="fa fa-github"></i></a></span>
+				<span><a href="https://twitter.com/andresbarrio"><i class="fa fa-twitter"></i></a></span>
+			</h1>
+			Created by: <a href="https://andrbr.github.io/">AndRBR</a> · <a href="https://github.com/ANDRBR/PolyBank">site's GitHub</a> · <a href="https://github.com/ANDRBR/PolyBank/issues">Problems or Sugestions</a><br>
+			
+			<a href="https://andrbr.github.io">andrbr.github.io</a> isn't related in any way with <a href="http://www.hasbro.com/">Hasbro&#x2122</a>
+			· site's version: v<span class="version"></span>
+		</center>
+	</footer>
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Bootstrap library -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="show-site-ver.js"></script>
+</body>
+</html>

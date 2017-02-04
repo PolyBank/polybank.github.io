@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!-- site version: 2.2.1.3 -->
-<html lang="es">
+<html lang="en">
 <head>
 	<title>PolyBank</title>
 	<meta charset="UTF-8">
-	<meta name="description" content="Banco virtual para el juego 'Monopolio'">
+	<meta name="description" content="Banking site for the game 'Monopoly'">
 	<meta name="keywords" content="MonopolyBank, Monopoly, PolyBank, Poly Bank, Monopoly Bank, Monopolio, Banco para Monopolio, Banco Monopolio, Banco de Monopolio, Banking for Monopoly, Monopoly Banking">
 	<meta name="author" content="AndRBR">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,13 +32,13 @@
 			if(eleArray.indexOf(ele.tagName) != -1){
 				//fallback to  corresponding links
 				var fbacks = {
-					"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"           : "lib/jquery/jquery-3.1.1.min.js",                         //jQuery JS
-					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"        : "lib/bootstrap-3.3.7/js/bootstrap.min.js",                //Bootstrap JS
-					"https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"             : "lib/datatables-1.10.13/js/jquery.dataTables.min.js",     //Data Tables jQuery JS
-					"https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"          : "lib/datatables-1.10.13/js/dataTables.bootstrap.min.js",  //Data Tables JS
-					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"      : "lib/bootstrap-3.3.7/css/bootstrap.min.css",              //Bootstrap CSS
-					"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css": "lib/font-awesome-4.7.0/css/font-awesome.min.css",        //Font Awesome CSS
-					"https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"        : "lib/datatables-1.10.13/css/dataTables.bootstrap.min.css" //Data Tables CSS
+					"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"           : "../lib/jquery/jquery-3.1.1.min.js",                         //jQuery JS
+					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"        : "../lib/bootstrap-3.3.7/js/bootstrap.min.js",                //Bootstrap JS
+					"https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"             : "../lib/datatables-1.10.13/js/jquery.dataTables.min.js",     //Data Tables jQuery JS
+					"https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"          : "../lib/datatables-1.10.13/js/dataTables.bootstrap.min.js",  //Data Tables JS
+					"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"      : "../lib/bootstrap-3.3.7/css/bootstrap.min.css",              //Bootstrap CSS
+					"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css": "../lib/font-awesome-4.7.0/css/font-awesome.min.css",        //Font Awesome CSS
+					"https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"        : "../lib/datatables-1.10.13/css/dataTables.bootstrap.min.css" //Data Tables CSS
 				};
 				var url = ele.tagName == "LINK" ? ele.href: ele.src;
 				console.log("src：" + url + " File" + resourceMap[ele.tagName] + "failed loading. Fallback: " + fbacks[url]);
@@ -73,7 +73,7 @@
 	<!-- DataTables -->
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"/>
 	<!-- my stylesheet -->
-	<link rel="stylesheet" type="text/css" href="CSS/stylesheet.min.css">
+	<link rel="stylesheet" type="text/css" href="../CSS/stylesheet.min.css">
 
 </head>
 <body>
@@ -91,29 +91,29 @@
 			<ul class="nav navbar-nav">
 				<li>
 					<a id="navbar-newgame" class="navbar-operations" data-toggle="modal" data-target="#modaldialog">
-						Nuevo
+						New
 					</a>
 				</li>
 				<li>
 					<a id="navbar-operations2" class="navbar-operations" data-toggle="modal" data-target="#auctiondialog">
-						Subasta
+						Auction
 					</a>
 				</li>
 				<li>
 					<a id="navbar-chance" class="navbar-operations" data-toggle="modal" data-target="#carddialog">
-						Casualidad
+						Chance
 					</a>
 				</li>
 				<li>
 					<a id="navbar-comchest" class="navbar-operations" data-toggle="modal" data-target="#carddialog">
-						Arca Comunal
+						Community Chest
 					</a>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="https://github.com/ANDRBR/PolyBank/wiki">Wiki</a></li>
 				<li>
-					<a href="sendme.html" data-toggle="tooltip" data-placement="auto" title="Envíame tu versión del juego">
+					<a href="sendme.html" data-toggle="tooltip" data-placement="auto" title="Send me your version of the game">
 						<span class="glyphicon glyphicon-send"></span>
 					</a>
 				</li>
@@ -123,8 +123,8 @@
 						<span class="glyphicon glyphicon-globe"></span>
 						<span class="caret"></span>
 						<ul id="lang-sel" class="dropdown-menu">
-							<li><a href="https://andrbr.github.io/PolyBank">Español <span class="lang-code">es</span></a></li>
-							<li><a href="EN/">English <span class="lang-code">en</span></a></li>
+							<li><a href="../">Español <span class="lang-code">es</span></a></li>
+							<li><a href="#">English <span class="lang-code">en</span></a></li>
 						</ul>
 					</a>
 				</li>
@@ -145,7 +145,7 @@
 						&times;
 					</button> 
 					<h4 id="modaldialogtitle" class="modal-title">
-						Nuevo Juego
+						New Game
 					</h4> 
 				</div> 
 				<!-- Modal body-->
@@ -153,11 +153,11 @@
 				<!-- Modal footer-->
 				<div class="modal-footer">
 					<div class="input-group">
-					<label for="versionsel" class="input-group-addon">Variantes:</label>
+					<label for="versionsel" class="input-group-addon">Versions:</label>
 						<select id="versionsel" class="form-control"></select>
 					</div>
 					<button type="button" id="newgame-ok-btn" class="btn btn-default">OK</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button> 
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
 				</div> 
 			</div>  
 		</div> 
@@ -173,7 +173,7 @@
 							data-dismiss="modal">
 						&times;
 					</button> 
-					<h4 id="auctiondialogtitle" class="modal-title">Subasta</h4> 
+					<h4 id="auctiondialogtitle" class="modal-title">Auction</h4> 
 				</div>
 				<!-- Modal body-->
 				<div id="auctiondialogbody" class="modal-body">
@@ -193,13 +193,13 @@
 						<span id="auctionmillsleft" class="tmr-segment"></span>
 					</center></h1>
 					<button id="starttmr-btn" class="btn btn-primary btn-block">
-						Iniciar Subasta
+						Start Auction
 					</button>
 					<button id="stoptmr-btn" class="btn btn-default btn-block">
-						Pausar Subasta
+						Pause Auction
 					</button>
 					<button id="resettmr-btn" class="btn btn-default btn-block">
-						Reiniciar Temporizador
+						Reset Timer
 					</button>
 				</div>
 				 <!-- Modal footer-->
@@ -207,7 +207,7 @@
 					<button type="button" 
 							class="btn btn-default" 
 							data-dismiss="modal">
-						Cerrar
+						Close
 					</button> 
 				</div> 
 			</div>  
@@ -235,7 +235,7 @@
 					<button type="button" 
 							class="btn btn-default" 
 							data-dismiss="modal">
-						Cerrar
+						Close
 					</button> 
 				</div> 
 			</div>  
@@ -246,49 +246,49 @@
 	<!-- Transaction input -->
 	<div id="transactiondiv" class="row">
 		<div id="transferoperations" class="col-sm-6">
-			<h4>Transacciones:</h4>
+			<h4>Transactions:</h4>
 			<!-- Default Options -->
 			<div class="input-group">
-				<label class="input-group-addon">Opciones<br>Preconfiguradas:</label>
-				<button id="transgoamount" class="form-control btn btn-primary">salida</button>
-				<button id="luxurytaxbtn" class="form-control btn btn-primary">Impuesto por lujos</button>
-				<button id="incometaxbtn" class="form-control btn btn-primary">Impuesto sobre la renta</button>
+				<label class="input-group-addon">Preseted<br>Options:</label>
+				<button id="transgoamount" class="form-control btn btn-primary">Go</button>
+				<button id="luxurytaxbtn" class="form-control btn btn-primary">Luxury Tax</button>
+				<button id="incometaxbtn" class="form-control btn btn-primary">Income Tax</button>
 			</div>
 			
 			<!-- Transfer Amount -->
 			<div class="input-group">
-				<label for="transamount" class="input-group-addon">Cantidad:</label>
+				<label for="transamount" class="input-group-addon">Amount:</label>
 				<input type="number" min="0" id="transamount" class="form-control"></input>
 				<div class="currencysymbol input-group-addon"></div>
 			</div>
 			<!-- Transfer From... -->
 			<div class="input-group">
-				<label for="transfromplayer" class="input-group-addon">Desde:</label>
+				<label for="transfromplayer" class="input-group-addon">From:</label>
 				<select id="transfromplayer" class="playersel form-control"></select>
 			</div>
 			<!-- Transfer To... -->
 			<div class="input-group">
-				<label for="transtoplayer" class="input-group-addon">Destinatario:</label>
+				<label for="transtoplayer" class="input-group-addon">To:</label>
 				<select id="transtoplayer" class="playersel form-control"></select>
 			</div>
 			<!-- Transfer Button -->
-			<button id="transferbtn" class="btn btn-success btn-block">Transferir</button>
+			<button id="transferbtn" class="btn btn-success btn-block">Transfer</button>
 		</div>
 		
 		<!-- Avaliable Properties purchase input -->
 		<div class="col-sm-6">
-			<h4>Venta de Propiedades:</h4>
+			<h4>Property Sell:</h4>
 			<form action="javascript:sellaval()">
 				<div class="input-group">
-					<label for="sellavalprop" class="input-group-addon">Propiedades Disponibles:</label>
+					<label for="sellavalprop" class="input-group-addon">Available Properties:</label>
 					<select id="sellavalprop" class="avalprop form-control gamelang"></select>
 					<div class="input-group-addon"><span class="currencysymbol"></span> <span id="sellavalpropcost"></span></div>
 				</div>
 				<div class="input-group">
-					<label for="sellavalpropto" class="input-group-addon">Vender a:</label>
+					<label for="sellavalpropto" class="input-group-addon">Sell to:</label>
 					<select id="sellavalpropto" class="playersel form-control"></select>
 				</div>
-				<input type="submit" class="btn btn-block btn-primary" value="Vender">
+				<input type="submit" class="btn btn-block btn-primary" value="Sell">
 			</form>
 		</div>
 	</div>
@@ -298,7 +298,7 @@
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a data-toggle="collapse" href="#players">Transacciones por jugador:</a>
+					<a data-toggle="collapse" href="#players">Player Transactions:</a>
 				</h4>
 			</div>
 			<div id="players" class="panel-collapse collapse">
@@ -308,11 +308,11 @@
 						<!-- Player and Property selectors -->
 						<div>
 							<div class="input-group">
-								<label for="currentplayer" class="input-group-addon">Jugador:</label>
+								<label for="currentplayer" class="input-group-addon">Player:</label>
 								<select id="currentplayer" class="playersel form-control"></select>
 							</div>
 							<div class="input-group">
-								<label for="curplayerprops" class="input-group-addon">Propiedades:</label>
+								<label for="curplayerprops" class="input-group-addon">Properties:</label>
 								<select id="curplayerprops" class="form-control gamelang"></select>
 							</div>
 						</div>
@@ -320,46 +320,46 @@
 						<!-- Buy Houses -->
 						<div class="input-group">
 							<label class="input-group-addon">
-								Casas/Hoteles <span class="currencysymbol"></span> <span id="buyhousesprice"></span>:
+								Houses/Hotels <span class="currencysymbol"></span> <span id="buyhousesprice"></span>:
 							</label>
-							<button id="buyhousebtn" class="playertbtn form-control btn btn-primary">Comprar</button>
-							<button id="sellhousebtn" class="playertbtn form-control btn btn-primary">Vender</button>
+							<button id="buyhousebtn" class="playertbtn form-control btn btn-primary">Buy</button>
+							<button id="sellhousebtn" class="playertbtn form-control btn btn-primary">Sell</button>
 						</div>
 						<div id="propmortholder" class="row">
 							<!-- Sell Property -->
 							<div class="col-sm-6">
-								<strong>Vender Propiedad:</strong>
+								<strong>Sell Property:</strong>
 								<div class="input-group">
-									<label for="sellpropprice" class="input-group-addon">Precio de venta:</label>
+									<label for="sellpropprice" class="input-group-addon">Sell Price:</label>
 									<input type="number" id="sellpropprice" class="form-control" min="0" value="0">
 									<div class="input-group-addon"><span class="currencysymbol"></span></div>
 								</div>
 								<div class="input-group">
-									<label for="sellplayertoplayer" class="input-group-addon">Vender a:</label>
+									<label for="sellplayertoplayer" class="input-group-addon">Sell to:</label>
 									<select id="sellplayertoplayer" class="playersel form-control"></select>
 								</div>
-								<button id="sellpropbtn" class="playertbtn btn btn-success btn-block">Vender</button>
+								<button id="sellpropbtn" class="playertbtn btn btn-success btn-block">Sell</button>
 							</div>
 							
 							<div class="col-sm-6">
-								<strong>Hipoteca:</strong>
+								<strong>Mortgage:</strong>
 								<!-- Mortgage property -->
 								<div class="input-group">
-									<button id="mortpropbtn" class="playertbtn form-control btn btn-primary btn-block">Hipotecar</button>
+									<button id="mortpropbtn" class="playertbtn form-control btn btn-primary btn-block">Mortgage</button>
 									<div class="input-group-addon"><span class="currencysymbol"></span> <span id="mortpropcost"></span></div>
 								</div>
 								<!-- Pay Mortgage -->
 								<div class="input-group">
-									<label for="curplayermortprops" class="input-group-addon">Hipotecadas:</label>
+									<label for="curplayermortprops" class="input-group-addon">Mortgaged:</label>
 									<select id="curplayermortprops" class="form-control gamelang"></select>
 									<div class="input-group-addon"><span class="currencysymbol"></span> <span id="mortpaycost"></span></div>
 								</div>
-								<button id="paymortbtn" class="playertbtn btn btn-warning btn-block">Saldar Hipoteca</button>
+								<button id="paymortbtn" class="playertbtn btn btn-warning btn-block">Pay Mortgage</button>
 							</div>
 						</div>
 							
 						<!-- Declare broke -->
-						<div><button id="bankruptbtn" class="playertbtn btn btn-danger btn-block">Declarar Banca Rota</button></div>
+						<div><button id="bankruptbtn" class="playertbtn btn btn-danger btn-block">Declare Bankruptcy</button></div>
 					</div>
 				</div>
 			</div>
@@ -371,7 +371,7 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a data-toggle="collapse" href="#statistics">Estadisticas</a>
+					<a data-toggle="collapse" href="#statistics">Statistics</a>
 				</h4>
 			</div>
 			<div id="statistics" class="panel-collapse collapse">
@@ -380,9 +380,9 @@
 						<thead>
 							<tr>
 								<th>Color</th>
-								<th>Jugador</th>
+								<th>Player</th>
 								<th><span class="currencysymbol"></span></th>
-								<th><span class="currencysymbol"></span> + Propiedades</th>
+								<th><span class="currencysymbol"></span> + Properties</th>
 							</tr>
 						</thead>
 						<tbody id="playersstattable"></tbody>
@@ -396,7 +396,7 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a data-toggle="collapse" href="#hist">Historial</a>
+					<a data-toggle="collapse" href="#hist">History</a>
 				</h4>
 			</div>
 			<div id="hist" class="panel-collapse collapse">
@@ -407,10 +407,10 @@
 								<thead>
 									<tr>
 										<th>#</th>
-										<th>Desde</th>
-										<th>Hacia</th>
-										<th>Cantidad</th>
-										<th>Descripción</th>
+										<th>From</th>
+										<th>To</th>
+										<th>Amount</th>
+										<th>Description</th>
 									</tr>
 								</thead>
 								<tbody id="histtable" class="gamelang"></tbody>
@@ -426,24 +426,24 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a data-toggle="collapse" href="#properties">Propiedades</a>
+					<a data-toggle="collapse" href="#properties">Properties</a>
 				</h4>
 			</div>
 			<div id="properties" class="panel-collapse collapse">
 				<div class="panel-body">
 					<!-- Avaliable Properties -->
 					<div class="input-group">
-						<label for="avalpropsel" class="input-group-addon">Propiedades Disponibles:</label>
+						<label for="avalpropsel" class="input-group-addon">Avaliable Properties:</label>
 						<select id="avalpropsel" class="avalprop form-control gamelang"></select>
 					</div>
 					<!-- Sold Properties -->
 					<div class="input-group">
-						<label for="soldpropsel" class="input-group-addon">Propiedades Vendidas:</label>
+						<label for="soldpropsel" class="input-group-addon">Sold Properties:</label>
 						<select id="soldpropsel" class="form-control gamelang"></select>
 					</div>
 					<!-- Mortgaged Properties -->
 					<div class="input-group">
-						<label for="mortpropsel" class="input-group-addon">Propiedades Hipotecadas:</label>
+						<label for="mortpropsel" class="input-group-addon">Mortgaged Properties:</label>
 						<select id="mortpropsel" class="form-control gamelang"></select>
 					</div>
 					<!-- Properties Detailed Info -->
@@ -451,7 +451,7 @@
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<h4 class="panel-title">
-									<a data-toggle="collapse" href="#propinfo">Info. Propiedades</a>
+									<a data-toggle="collapse" href="#propinfo">Properties Info</a>
 								</h4>
 							</div>
 							<div id="propinfo" class="panel-collapse collapse">
@@ -461,34 +461,34 @@
 										<div class="panel panel-default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a data-toggle="collapse" data-parent="#propinfopanels" href="#utilinfo">Utilidades</a>
+													<a data-toggle="collapse" data-parent="#propinfopanels" href="#utilinfo">Utilities</a>
 												</h4>
 											</div>
 											<div id="utilinfo" class="panel-collapse collapse">
 												<div class="panel-body">
-													<p><strong>Nombres:</strong></p>
+													<p><strong>Names:</strong></p>
 													<ul>
 														<li class="utilelectric gamelang"></li>
 														<li class="utilwater gamelang"></li>
 													</ul>
 													<p>
-														<strong>Precio: </strong>
+														<strong>Price: </strong>
 														<span class="utilprice gamelang"></span>
 														<span class="currencysymbol gamelang"></span>
 													</p>
 													<p>
-														<strong>Hipoteca:</strong>
+														<strong>Mortgage:</strong>
 														<span class="utilmortprice gamelang"></span>
 														<span class="currencysymbol gamelang"></span>
 													</p>
-													<p><strong>Alquiler:</strong></p>
+													<p><strong>Rent:</strong></p>
 													<ul>
 														<li>
-															<strong>1 Utilidad: </strong>
+															<strong>1 Utility: </strong>
 															<span class="utilrent1 gamelang"></span>
 														</li>
 														<li>
-															<strong>2 Utilidades: </strong>
+															<strong>2 Utilities: </strong>
 															<span class="utilrent2 gamelang"></span>
 														</li>
 													</ul>
@@ -499,25 +499,25 @@
 										<div class="panel panel-default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a data-toggle="collapse" data-parent="#propinfopanels" href="#railinfo">Ferrocarriles</a>
+													<a data-toggle="collapse" data-parent="#propinfopanels" href="#railinfo">Railroads</a>
 												</h4>
 											</div>
 											<div id="railinfo" class="panel-collapse collapse">
 												<div class="panel-body">
-													<p><strong>Nombres:</strong></p>
+													<p><strong>Names:</strong></p>
 													<!-- Railroads Names -->
 													<ul id="railinfonames" class="gamelang"></ul>
 													<p>
-														<strong>Precio: </strong>
+														<strong>Price: </strong>
 														<span class="railprice gamelang"></span>
 														<span class="currencysymbol gamelang"></span>
 													</p>
 													<p>
-														<strong>Hipoteca:</strong>
+														<strong>Mortgage:</strong>
 														<span class="railmortprice gamelang"></span>
 														<span class="currencysymbol gamelang"></span>
 													</p>
-													<p><strong>Alquiler:</strong></p>
+													<p><strong>Rent:</strong></p>
 													<!-- Railroads Rent Prices -->
 													<ul id="railinforents"></ul>
 												</div>
@@ -527,7 +527,7 @@
 										<div class="panel panel-default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a data-toggle="collapse" data-parent="#propinfopanels" href="#streetsinfo">Calles</a>
+													<a data-toggle="collapse" data-parent="#propinfopanels" href="#streetsinfo">Streets</a>
 												</h4>
 											</div>
 											<div id="streetsinfo" class="panel-collapse collapse">
@@ -536,16 +536,16 @@
 														<thead>
 															<tr>
 																<th>Color</th>
-																<th>Nombre</th>
-																<th>Precio</th>
-																<th>Hipoteca</th>
-																<th>Alquiler</th>
-																<th>1 Casa</th>
-																<th>2 Casas</th>
-																<th>3 Casas</th>
-																<th>4 Casas</th>
+																<th>Name</th>
+																<th>Price</th>
+																<th>Mortgage</th>
+																<th>Rent</th>
+																<th>1 House</th>
+																<th>2 Houses</th>
+																<th>3 Houses</th>
+																<th>4 Houses</th>
 																<th>Hotel</th>
-																<th>Casas (costo)</th>
+																<th>Houses (price)</th>
 															</tr>
 														</thead>
 														<tbody id="streetsinfotable" class="gamelang"></tbody>
@@ -569,10 +569,10 @@
 				<span><a href="https://github.com/ANDRBR"><i class="fa fa-github"></i></a></span>
 				<span><a href="https://twitter.com/andresbarrio"><i class="fa fa-twitter"></i></a></span>
 			</h1>
-			Creado por: <a href="https://andrbr.github.io/">AndRBR</a> · <a href="https://github.com/ANDRBR/PolyBank">GitHub del sitio</a> · <a href="https://github.com/ANDRBR/PolyBank/issues">Problemas o Sugerencias</a><br>
+			Created by: <a href="https://andrbr.github.io/">AndRBR</a> · <a href="https://github.com/ANDRBR/PolyBank">site's GitHub</a> · <a href="https://github.com/ANDRBR/PolyBank/issues">Problems or Sugestions</a><br>
 			
-			<a href="https://andrbr.github.io">andrbr.github.io</a> no está asociado de ninguna forma con <a href="http://www.hasbro.com/">Hasbro&#x2122</a>
-			· version del sitio: v<span class="version"></span>
+			<a href="https://andrbr.github.io">andrbr.github.io</a> isn't related in any way with <a href="http://www.hasbro.com/">Hasbro&#x2122</a>
+			· site's version: v<span class="version"></span>
 		</center>
 	</footer>
 
@@ -587,8 +587,8 @@
 	<script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 
 	<!-- ************************************************************* -->
-	<script src="JS/functions.min.js"></script>
-	<script src="JS/data_index_list.min.js"></script>
-	<script src="show-site-ver.js"></script>
+	<script src="../JS/functions_EN.min.js"></script>
+	<script src="../JS/data_index_list.min.js"></script>
+	<script src="../show-site-ver.js"></script>
 </body>
 </html>

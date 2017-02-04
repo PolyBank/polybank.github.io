@@ -8,13 +8,13 @@ var currencysym = "";
 var datafolder = "";
 
 var histdescriptions = {
-	transfer   : "Transferencia",
-	propsell   : "Venta de propiedad",
-	mortprop   : "Propiedad hipotecada",
-	mortpaid   : "Hipoteca saldada",
-	housebought: "Compra de casa/hotel",
-	housesold  : "Venta de casa/hotel",
-	setbankrupt: "Declaración de banca rota"
+	transfer   : "Transfer",
+	propsell   : "Property Sell",
+	mortprop   : "Mortgaged property",
+	mortpaid   : "Mortgage payed",
+	housebought: "House/Hotel buy",
+	housesold  : "House/Hotel sell",
+	setbankrupt: "Bankruptcy Declaration"
 };
 
 //variable to store the current game data
@@ -42,7 +42,7 @@ var game = {
 
 //saves bank's info
 game.players[0] = {
-	name:   "Banco",
+	name:   "Bank",
 	color:  "",
 	money:  Infinity,
 	worth:  Infinity,
@@ -154,11 +154,11 @@ function onokmodal() {
 
 		for (var i = 1; i <= game["nplayers"]; i++) {
 			txt += "<table class='table' id='jugador" + i + "'>" +
-				"<thead><tr><th><center><b>Jugador: " + i + "</b></center></th></tr></thead>" +
+				"<thead><tr><th><center><b>Player: " + i + "</b></center></th></tr></thead>" +
 				"<tbody>" +
 					"<tr><td>" +
 						"<div class='form-group row'>" +
-							"<label for='Nombre" + i + "' class='col-sm-2 col-form-label'>Nombre:</label>" +
+							"<label for='Nombre" + i + "' class='col-sm-2 col-form-label'>Name:</label>" +
 							"<div class='col-sm-10'>" +
 								"<input type='text' id='Nombre" + i + "' class='form-control input-sm' placeholder='AndRBR'>" +
 							"</div>" +
@@ -187,14 +187,14 @@ function onokmodal() {
 		txt += "<div id='bill'><h1 id='indicador-dinero'></h1></div>" +
 			"<div id='optjuego'>" +
 				"<div id='divinicial' class='form-group row'>" +
-					"<label for='inicial' class='col-sm-3 col-form-label'>Dinero Inicial:</label>" +
+					"<label for='inicial' class='col-sm-3 col-form-label'>Initial Money:</label>" +
 					"<div class='input-group col-sm-9'>" +
 						"<input id='inicial' class='form-control input-sm' type='number' value='0'>" +
 						"<div class='currencysymbol input-group-addon'></div>" +
 					"</div>" +
 				"</div>" +
 				"<div class='form-group row'>" +
-					"<label for='nJugadores' class='col-sm-3 col-form-label'># Jugadores:</label>" +
+					"<label for='nJugadores' class='col-sm-3 col-form-label'>Players #:</label>" +
 					"<div class='col-sm-9'>" +
 						"<input id='nJugadores' type='number' class='form-control input-sm' value='0' min='0' max='9' step='1'>" +
 					"</div>" +
@@ -245,17 +245,17 @@ function updateplayersel() {
 
 //loads the java script file (from the 'folder') that holds the chance/comunnity chest texts
 function loadcardstext(folder) {
-	loadjs("JS/" + folder + "/cards.min.js", "cardscript");
+	loadjs("../JS/" + folder + "/cards.min.js", "cardscript");
 }
 
 //loads the card dialog data (title, text) depending on the 'type': chance|comunitychest
 function loadcarddialogdata(type){
 	switch(type) {
 		case "chance":
-			$("#carddialogtitle").html("Casualidad");
+			$("#carddialogtitle").html("Chance");
 			break;
 		case "comunitychest":
-			$("#carddialogtitle").html("Arca Comunal");
+			$("#carddialogtitle").html("Comunity Chest");
 			break;
 	};
 	$("#carddialogtxt").html(getrandcard(type));
@@ -322,7 +322,7 @@ function getrandcard(type) {
 
 //loads the java script file (from the 'folder') that holds the economic data
 function loadeconomicdata(folder){
-	loadjs("JS/" + folder + "/economic_data.min.js", "economic_data");
+	loadjs("../JS/" + folder + "/economic_data.min.js", "economic_data");
 }
 
 //updates the table that displays the players info
@@ -568,7 +568,7 @@ $(document).ready(function(){
 	lilist = "";
 	for(i=1; i < 5; i++){
 		lilist += "<li>" +
-			"<strong>" + i + " Ferrocarril" + ((i > 1) ? "es" : "") + ": </strong>" +
+			"<strong>" + i + " Railroad" + ((i > 1) ? "s" : "") + ": </strong>" +
 			"<span class='gamelang' id='railrent" + i + "'></span>" +
 			" <span class='currencysymbol gamelang'></span>" +
 		"</li>";
@@ -807,30 +807,6 @@ $(document).ready(function(){
 	//datatable config **********************************************
 
 	$(".DataTable").DataTable({
-		language: {
-			"sProcessing":     "Procesando...",
-			"sLengthMenu":     "Mostrar _MENU_ registros",
-			"sZeroRecords":    "No se encontraron resultados",
-			"sEmptyTable":     "Ningún dato disponible en esta tabla",
-			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-			"sInfoPostFix":    "",
-			"sSearch":         "Buscar:",
-			"sUrl":            "",
-			"sInfoThousands":  ",",
-			"sLoadingRecords": "Cargando...",
-			"oPaginate": {
-				"sFirst":    "Primero",
-				"sLast":     "Último",
-				"sNext":     "Siguiente",
-				"sPrevious": "Anterior"
-			},
-			"oAria": {
-				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-			}
-		},
 		scrollY: 300,
 		scrollX: true,
 		scrollCollapse: true,
