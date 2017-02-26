@@ -1,3 +1,7 @@
+## VERSION 2.2.1.4
+	### BACKEND
+		-	Removed unused flag icons library
+
 ## VERSION 2.2.1.3
 	### UI
 		+	added form to send new versions to be reviewed
