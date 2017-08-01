@@ -91,7 +91,7 @@ a.disabled {
 	text-indent: 3ex;
 }
 
-#divinicial{
+#initialdiv{
 	margin-right: 0px;
 }
 
@@ -103,7 +103,7 @@ a.disabled {
 	margin-top: 10px;
 }
 
-#indicador-dinero{
+#money-indicator{
 	margin-bottom: 0;
 	margin-top: -0.5em;
 }
@@ -124,7 +124,7 @@ a.disabled {
 @media screen and (max-width: 768px) {
 	.dataTables_info { display: none; }
 	#lang-sel > li > a.disabled, #lang-sel > li > a > .lang-code { color: dimgrey !important; }
-	#divinicial > div.input-group { margin-left: 15px; }
+	#initialdiv > div.input-group { margin-left: 15px; }
 	#bill {
 		background-size: 80% auto;
 		width: 80%;
@@ -132,5 +132,5 @@ a.disabled {
 }
 
 @media screen and (min-width: 768px) {
-	#divinicial + div > div { padding-left: 0; }
+	#initialdiv + div > div { padding-left: 0; }
 }

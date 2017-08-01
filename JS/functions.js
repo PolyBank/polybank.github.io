@@ -1,3 +1,4 @@
+;
 //Global Variables*********************************************************
 
 // timer global variables
@@ -7,15 +8,56 @@ var currencysym = "";
 //variable to store the folder name for the selected game version 
 var datafolder = "";
 
-var histdescriptions = {
-	transfer   : "Transferencia",
-	propsell   : "Venta de propiedad",
-	mortprop   : "Propiedad hipotecada",
-	mortpaid   : "Hipoteca saldada",
-	housebought: "Compra de casa/hotel",
-	housesold  : "Venta de casa/hotel",
-	setbankrupt: "Declaración de banca rota"
-};
+var translations = {
+	histdescriptions: {
+		transfer   : "Transferencia",
+		propsell   : "Venta de propiedad",
+		mortprop   : "Propiedad hipotecada",
+		mortpaid   : "Hipoteca saldada",
+		housebought: "Compra de casa/hotel",
+		housesold  : "Venta de casa/hotel",
+		setbankrupt: "Declaración de banca rota"
+	},
+	Bankname: "Banco",
+	players: {
+		it: "Jugador",
+		name: "Nombre",
+	},
+	tags: {
+		initmoney: "Dinero Inicial",
+		nplayers: "# Jugadores",
+		cards: {
+			chance: "Casualidad",
+			comunitychest: "Arca Comunal",
+		},
+		railroad_single: "Ferrocarril",
+		railroad_plural: "Ferrocarriles",
+	},
+	datatablelang : {
+		"sProcessing"    : "Procesando...",
+		"sLengthMenu"    : "Mostrar _MENU_ registros",
+		"sZeroRecords"   : "No se encontraron resultados",
+		"sEmptyTable"    : "Ningún dato disponible en esta tabla",
+		"sInfo"          : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+		"sInfoEmpty"     : "Mostrando registros del 0 al 0 de un total de 0 registros",
+		"sInfoFiltered"  : "(filtrado de un total de _MAX_ registros)",
+		"sInfoPostFix"   : "",
+		"sSearch"        : "Buscar:",
+		"sUrl"           : "",
+		"sInfoThousands" : ",",
+		"sLoadingRecords": "Cargando...",
+		"oPaginate": {
+			"sFirst"   : "Primero",
+			"sLast"    : "Último",
+			"sNext"    : "Siguiente",
+			"sPrevious": "Anterior"
+		},
+		"oAria": {
+			"sSortAscending" : ": Activar para ordenar la columna de manera ascendente",
+			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+		}
+	},
+}
 
 //variable to store the current game data
 var game = {
@@ -42,7 +84,7 @@ var game = {
 
 //saves bank's info
 game.players[0] = {
-	name:   "Banco",
+	name:   translations.Bankname,
 	color:  "",
 	money:  Infinity,
 	worth:  Infinity,
@@ -55,7 +97,6 @@ function myTimer() {
 	var current_date = new Date().getTime();
 	var milliseconds_left = (target_date - current_date);
 	if (milliseconds_left < 10) {
-		stopTmr();
 		clearTmr();
 		return;
 	}
@@ -140,27 +181,27 @@ function loadjs(src, id) {
 function onokmodal() {
 	var txt = "";
 
-	if(game["init"] === 1 && $("#nJugadores").val() < 2){
-		game["init"] = 0;
+	if(game["init"] === 1 && $("#nPlayers").val() < 2){
+		return;
 	}
 
 	//if the user pressed ok on 'new game' dialog and the choosed number of players is at least 2
 	//then it will show the players info options
-	if (game["init"] === 1 && $("#nJugadores").val() > 1) {
+	if (game["init"] === 1 && $("#nPlayers").val() > 1) {
 
 		game["init"]++;
-		game["nplayers"]  = $("#nJugadores").val();
-		game["initmoney"] = $("#inicial").val();
+		game["nplayers"]  = $("#nPlayers").val();
+		game["initmoney"] = $("#initial").val();
 
 		for (var i = 1; i <= game["nplayers"]; i++) {
-			txt += "<table class='table' id='jugador" + i + "'>" +
-				"<thead><tr><th><center><b>Jugador: " + i + "</b></center></th></tr></thead>" +
+			txt += "<table class='table' id='player" + i + "'>" +
+				"<thead><tr><th><center><b>" + translations.players.it + ": " + i + "</b></center></th></tr></thead>" +
 				"<tbody>" +
 					"<tr><td>" +
 						"<div class='form-group row'>" +
-							"<label for='Nombre" + i + "' class='col-sm-2 col-form-label'>Nombre:</label>" +
+							"<label for='Name" + i + "' class='col-sm-2 col-form-label'>" + translations.players.name + ":</label>" +
 							"<div class='col-sm-10'>" +
-								"<input type='text' id='Nombre" + i + "' class='form-control input-sm' placeholder='AndRBR'>" +
+								"<input type='text' id='Name" + i + "' class='form-control input-sm' placeholder='AndRBR'>" +
 							"</div>" +
 						"</div>" +
 						"<div class='form-group row'>" +
@@ -171,7 +212,7 @@ function onokmodal() {
 							"<script>" +
 								"game.players[" + i + "] = {name: '', color: $('#colorsel" + i + "').val(), money: game['initmoney'], worth: game['initmoney'], properties: [], houses: 0};" +
 								"$('#colorsel" + i + "').change(function(){game.players[" + i + "].color = $(this).val();});" +
-								"$('#Nombre" + i + "').change(function(){game.players[" + i + "].name = $(this).val();});" +
+								"$('#Name" + i + "').change(function(){game.players[" + i + "].name = $(this).val();});" +
 							"</script>" +
 						"</div>" +
 					"</td></tr>" +
@@ -179,32 +220,37 @@ function onokmodal() {
 			"</table>";
 		}
 
+		//loads the txt (as html) to the new game dialog body
+		$("#modaldialogbody").html(txt);
 	}
 	//if the user is oppening the new game dialog (or the site just oppened),
 	//then it will show the option to choose the initial money and number of players
 	else if (game["init"] === 0) {
 		game["init"]++;
-		txt += "<div id='bill'><h1 id='indicador-dinero'></h1></div>" +
+		txt += "<div id='bill'><h1 id='money-indicator'></h1></div>" +
 			"<div id='optjuego'>" +
-				"<div id='divinicial' class='form-group row'>" +
-					"<label for='inicial' class='col-sm-3 col-form-label'>Dinero Inicial:</label>" +
+				"<div id='initialdiv' class='form-group row'>" +
+					"<label for='initial' class='col-sm-3 col-form-label'>" + translations.tags.initmoney + ":</label>" +
 					"<div class='input-group col-sm-9'>" +
-						"<input id='inicial' class='form-control input-sm' type='number' value='0'>" +
+						"<input id='initial' class='form-control input-sm' type='number' value='0'>" +
 						"<div class='currencysymbol input-group-addon'></div>" +
 					"</div>" +
 				"</div>" +
 				"<div class='form-group row'>" +
-					"<label for='nJugadores' class='col-sm-3 col-form-label'># Jugadores:</label>" +
+					"<label for='nPlayers' class='col-sm-3 col-form-label'>" + translations.tags.nplayers + ":</label>" +
 					"<div class='col-sm-9'>" +
-						"<input id='nJugadores' type='number' class='form-control input-sm' value='0' min='0' max='9' step='1'>" +
+						"<input id='nPlayers' type='number' class='form-control input-sm' value='0' min='0' max='9' step='1'>" +
 					"</div>" +
 				"</div>" +
 			"</div>" +
 			"<script>" +
-				"$('#inicial').change(function() {" +
+				"$('#initial').change(function() {" +
 					"setInitialMoney();" +
 				"});" +
 			"</script>";
+		//loads the txt (as html) to the new game dialog body
+		$("#modaldialogbody").html(txt);
+
 		$(document).ready(function($) {
 			setInitialMoney();
 		});
@@ -230,9 +276,6 @@ function onokmodal() {
 		$("#histdatatable").DataTable().clear(); //clears the history table
 		$('#modaldialog').modal('hide'); 	 //hides the new game dialog
 	}
-
-	//loads the txt (as html) to the new game dialog body
-	$("#modaldialogbody").html(txt);
 }
 
 //updates player selectors
@@ -252,10 +295,10 @@ function loadcardstext(folder) {
 function loadcarddialogdata(type){
 	switch(type) {
 		case "chance":
-			$("#carddialogtitle").html("Casualidad");
+			$("#carddialogtitle").html(translations.tags.cards.chance);
 			break;
 		case "comunitychest":
-			$("#carddialogtitle").html("Arca Comunal");
+			$("#carddialogtitle").html(translations.tags.cards.comunitychest);
 			break;
 	};
 	$("#carddialogtxt").html(getrandcard(type));
@@ -275,7 +318,7 @@ function sellaval() {
 	movetosold(prop);
 	
 	//append purchase to history
-	appendtohistory(0, to, amount, histdescriptions.propsell);
+	appendtohistory(0, to, amount, translations.histdescriptions.propsell);
 	//updates the shown player info
 	updateplayertable();
 	//updates the player options
@@ -397,7 +440,7 @@ function transfer() {
 	addworth(from, -amount);
 	addworth(to, amount);
 
-	appendtohistory(from, to, amount, histdescriptions.transfer);
+	appendtohistory(from, to, amount, translations.histdescriptions.transfer);
 
 	//updates the shown player info
 	updateplayertable(); //this can also be improved by doing this dinamically
@@ -526,8 +569,8 @@ function appendtohistory(from, to, amount, description){
 
 //shows the initial money amount on the bill
 function setInitialMoney() {
-	var money = $('#inicial').val();
-	$('#indicador-dinero').html(money + " " + currencysym);
+	var money = $('#initial').val();
+	$('#money-indicator').html(money + " " + currencysym);
 }
 
 //finds if a property name exists, and if it does, it returns the holder of such property
@@ -568,7 +611,7 @@ $(document).ready(function(){
 	lilist = "";
 	for(i=1; i < 5; i++){
 		lilist += "<li>" +
-			"<strong>" + i + " Ferrocarril" + ((i > 1) ? "es" : "") + ": </strong>" +
+			"<strong>" + i + " " + ((i > 1) ? translations.tags.railroad_plural : translations.tags.railroad_single) + ": </strong>" +
 			"<span class='gamelang' id='railrent" + i + "'></span>" +
 			" <span class='currencysymbol gamelang'></span>" +
 		"</li>";
@@ -646,7 +689,7 @@ $(document).ready(function(){
 			updatepropsels();
 
 			loadplayeropts();
-			appendtohistory(from, to, amount, histdescriptions.mortprop);
+			appendtohistory(from, to, amount, translations.histdescriptions.mortprop);
 			updateplayertable();
 		}
 	});
@@ -663,7 +706,7 @@ $(document).ready(function(){
 			//adds a house to the player
 			game.players[from].houses++;
 
-			appendtohistory(from, to, amount, histdescriptions.housebought);
+			appendtohistory(from, to, amount, translations.histdescriptions.housebought);
 			updateplayertable();
 		}
 	});
@@ -680,7 +723,7 @@ $(document).ready(function(){
 			//adds a house to the player
 			game.players[from].houses--;
 
-			appendtohistory(from, to, amount, histdescriptions.housesold);
+			appendtohistory(from, to, amount, translations.histdescriptions.housesold);
 			updateplayertable();
 		}
 	});
@@ -711,7 +754,7 @@ $(document).ready(function(){
 		updatepropsels();
 
 		loadplayeropts();
-		appendtohistory(from, to, amount, histdescriptions.propsell);
+		appendtohistory(from, to, amount, translations.histdescriptions.propsell);
 		updateplayertable();
 	});
 
@@ -737,7 +780,7 @@ $(document).ready(function(){
 			updatepropsels();
 
 			loadplayeropts();
-			appendtohistory(from, to, amount, histdescriptions.mortpaid);
+			appendtohistory(from, to, amount, translations.histdescriptions.mortpaid);
 			updateplayertable();
 		}
 	});
@@ -745,8 +788,17 @@ $(document).ready(function(){
 	//declare bankruptcy
 	$("#bankruptbtn").click(function() {
 		var from = $("#currentplayer").prop('selectedIndex');
+		var holder;
 		if(from != 0){
-			game.avalprops.concat(game.players[from].properties);
+			$.each(game.players[from].properties, function(index0, val0) {
+				$.each(game.soldprops, function(index, val) {
+					if(val === val0){
+						game.avalprops[game.avalprops.length] = val0;
+						game.soldprops.splice(index, 1);
+					}
+				});
+			});
+
 			//the history has to be updated before deleting the player
 			appendtohistory(from, from, NaN, histdescriptions.setbankrupt);
 
@@ -807,30 +859,7 @@ $(document).ready(function(){
 	//datatable config **********************************************
 
 	$(".DataTable").DataTable({
-		language: {
-			"sProcessing":     "Procesando...",
-			"sLengthMenu":     "Mostrar _MENU_ registros",
-			"sZeroRecords":    "No se encontraron resultados",
-			"sEmptyTable":     "Ningún dato disponible en esta tabla",
-			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-			"sInfoPostFix":    "",
-			"sSearch":         "Buscar:",
-			"sUrl":            "",
-			"sInfoThousands":  ",",
-			"sLoadingRecords": "Cargando...",
-			"oPaginate": {
-				"sFirst":    "Primero",
-				"sLast":     "Último",
-				"sNext":     "Siguiente",
-				"sPrevious": "Anterior"
-			},
-			"oAria": {
-				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-			}
-		},
+		language: translations.datatablelang,
 		scrollY: 300,
 		scrollX: true,
 		scrollCollapse: true,

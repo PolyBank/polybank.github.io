@@ -1,3 +1,10 @@
+## VERSION 2.2.3.2
+	### BACKEND
+		-	Fixed problem: unable to stop auction
+		-	Fixed problem: bankruptcy doesn't return properties to the avaliable list
+		-	Moved translatable text (in function.js) to a single variable
+		-	Changed some elements id to be in english
+
 ## VERSION 2.2.1.4
 	### BACKEND
 		-	Removed unused flag icons library
