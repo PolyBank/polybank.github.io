@@ -1,5 +1,9 @@
 ## VERSION 2.2.3.2
 	### BACKEND
+		-	Fixed problem: fallback script shown
+
+## VERSION 2.2.3.2
+	### BACKEND
 		-	Fixed problem: unable to stop auction
 		-	Fixed problem: bankruptcy doesn't return properties to the avaliable list
 		-	Moved translatable text (in function.js) to a single variable
